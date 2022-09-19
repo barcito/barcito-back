@@ -1,5 +1,12 @@
+import { IsString } from '@nestjs/class-validator';
+
 export class CreateUserDto {
-    email: string;
-    password: string;
-    refreshToken: string;
+  @IsString()
+  email: string;
+
+  @IsString()
+  password: string;
+
+  @IsString()
+  refreshToken: string;
 }
