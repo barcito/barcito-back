@@ -1,5 +1,8 @@
 import { Injectable, ArgumentMetadata, BadRequestException, ValidationPipe, UnprocessableEntityException } from '@nestjs/common';
 
+/**
+ * Pipe that validates the input of a request
+ */
 @Injectable()
 export class ValidateInputPipe extends ValidationPipe {
    public async transform(value: any, metadata: ArgumentMetadata) {

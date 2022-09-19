@@ -3,6 +3,9 @@ import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { Role } from 'src/users/entities/role.enum';
 
+/**
+ * Guard that protects the resource from being accessed without proper authorization
+ */
 @Injectable()
 export class RolesGuard implements CanActivate {
     constructor(private reflector: Reflector){}

@@ -3,6 +3,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
 import { ExecutionContext } from '@nestjs/common/interfaces';
 
+/**
+ * Guard that protects the resource from being accessed without authentication
+ */
 @Injectable()
 export class AccessTokenGuard extends AuthGuard('jwt'){
     constructor(private readonly reflector: Reflector){
