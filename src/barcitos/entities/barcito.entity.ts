@@ -8,11 +8,11 @@ export class Barcito {
   @Column()
   public academicUnit: string;
 
-  @Column({ type: 'timestamp' })
-  public openTime: Date;
+  @Column()
+  public openTime: number;
 
-  @Column({ type: 'timestamp' })
-  public closeTime: Date;
+  @Column()
+  public closeTime: number;
 
   @Column()
   public location: string;

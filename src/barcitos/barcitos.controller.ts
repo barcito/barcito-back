@@ -34,7 +34,7 @@ export class BarcitosController {
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.barcitosService.findOne(id);
+    return this.barcitosService.findById(id);
   }
 
   @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
@@ -50,6 +50,6 @@ export class BarcitosController {
   @UseGuards(RolesGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.barcitosService.remove(+id);
+    return this.barcitosService.remove(id);
   }
 }

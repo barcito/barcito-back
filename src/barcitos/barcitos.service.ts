@@ -24,7 +24,7 @@ export class BarcitosService {
   }
 
   async findById(id: number): Promise<Barcito> {
-    const barcito = await this.BarcitoRepository.findOne({ where: { id } });
+    const barcito = await this.BarcitoRepository.findOneBy({ id });
     if (!barcito) throw new NotFoundException('Barcito not found');
     return barcito;
   }
