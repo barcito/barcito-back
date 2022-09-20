@@ -3,13 +3,15 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { BarcitosModule } from './barcitos/barcitos.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal:true }),
     DatabaseModule,
     UsersModule,
-    AuthModule
+    AuthModule,
+    BarcitosModule
   ]
 })
 export class AppModule {}

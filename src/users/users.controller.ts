@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseIntPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { Role } from './entities/role.enum';
 
 @Controller('users')
 export class UsersController {
@@ -19,24 +22,24 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOneById(@Param('id') id: string) {
-    return this.usersService.findById(+id);
+  findOneById(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.findById(id);
   }
 
-  @Get(':email')
-  findOneByEmail(@Param('email') email: string) {
+  /* @Get('/email/:email')
+  findOneByEmail(@Param(':email') email: string) {
     return this.usersService.findByEmail(email);
-  }
+  } //es necesario? */
 
-  @UseGuards(AccessTokenGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(id, updateUserDto);
   }
 
-  @UseGuards(AccessTokenGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.remove(id);
   }
 }
