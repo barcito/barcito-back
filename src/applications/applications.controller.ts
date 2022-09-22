@@ -31,7 +31,6 @@ export class ApplicationsController {
     //endpoint solo para usuario
   @Post()
   async create(@Body() createApplicationDto: CreateApplicationDto, @Req() request: Request) {
-    console.log(request.user);
     const userId = request.user['id'];
     const application = await this.applicationsService.create(createApplicationDto);
     if(!application)
