@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException, NotFoundException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Application } from 'src/applications/entities/application.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -44,5 +45,13 @@ export class UsersService {
   async remove(id: number) {
     const deleteResponse = await this.usersRepository.delete(id);
     if (!deleteResponse.affected) throw new NotFoundException('User not found');
+  }
+
+  async updateApplication(id: number, idApplication: Application){
+    const user = await this.findById(id);
+    if(!user){
+      throw new NotFoundException('User not found');
+    }
+    return await this.update(id, { applicationDone: idApplication });
   }
 }

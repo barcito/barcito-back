@@ -9,7 +9,7 @@ async function bootstrap() {
   const reflector = app.get(Reflector);
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidateInputPipe());
-  app.useGlobalGuards(new AccessTokenGuard(reflector));
+  // app.useGlobalGuards(new AccessTokenGuard(reflector));
   await app.listen(3000);
 }
 bootstrap();
