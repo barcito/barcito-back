@@ -1,37 +1,58 @@
-import { Controller, Get, Post, Body, UseGuards, Req} from '@nestjs/common';
-import { Request } from 'express';
+import { Controller, Get, Post, Body, UseGuards, Req, Res} from '@nestjs/common';
+import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AuthDto } from './dto/auth.dto';
 import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
 import { Public } from 'src/common/decorators/public.decorator';
+import { ConfigService } from '@nestjs/config';
+
+
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+
+  private frontendDomain = null;
+
+  constructor(
+    private readonly authService: AuthService,
+    private readonly configService: ConfigService
+    ) {
+      this.frontendDomain = this.configService.get<string>('FRONTEND_DOMAIN')
+    }
 
   @Public()
   @Post('signup')
-  signup(@Body() createUserDto: CreateUserDto){
-    return this.authService.signUp(createUserDto);
+  async signup(@Body() createUserDto: CreateUserDto, @Res({ passthrough: true }) response: Response){
+    const { accessToken, refreshToken, newUser} = await this.authService.signUp(createUserDto);
+    response.cookie('accessToken', accessToken, {httpOnly: true, domain: this.frontendDomain,});
+    response.cookie('refreshToken', refreshToken, {httpOnly: true, domain: this.frontendDomain,});
+    return { email: newUser.email, roles: newUser.roles };
   }
 
   @Public()
   @Post('signin')
-  signin(@Body() data: AuthDto){
-    return this.authService.signIn(data);
+  async signin(@Body() data: AuthDto, @Res({ passthrough: true }) response: Response){
+    const { accessToken, refreshToken, user} = await this.authService.signIn(data);
+    response.cookie('accessToken', accessToken, {httpOnly: true, domain: this.frontendDomain,});
+    response.cookie('refreshToken', refreshToken, {httpOnly: true, domain: this.frontendDomain,});
+    return { email: user.email, roles: user.roles};
   }
 
   @Get('logout')
-  logout(@Req() req: Request){
-    this.authService.logout(req.user['sub']);
+  logout(@Req() req: Request, @Res({ passthrough: true }) response: Response){
+    this.authService.logout(req.user['id']);
+    response.clearCookie('accessToken', {httpOnly: true, domain: this.frontendDomain,});
+    response.clearCookie('refreshToken', {httpOnly: true, domain: this.frontendDomain,});
   }
 
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
-  refreshTokens(@Req() req: Request){
-    const userId = req.user['sub'];
+  async refreshTokens(@Req() req: Request, @Res({ passthrough:true }) response: Response){
+    const userId = req.user['id'];
     const refreshToken = req.user['refreshToken'];
-    return this.authService.refreshTokens(userId, refreshToken);
+    const tokens = await this.authService.refreshTokens(userId, refreshToken);
+    response.cookie('accessToken', tokens.accessToken, {httpOnly: true, domain: this.frontendDomain,});
+    response.cookie('refreshToken', tokens.refreshToken, {httpOnly: true, domain: this.frontendDomain,});
   }
 }
