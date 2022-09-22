@@ -12,13 +12,13 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/users/entities/role.enum';
+import { Role } from '../users/entities/role.enum';
 import { BarcitosService } from './barcitos.service';
 import { CreateBarcitoDto } from './dto/create-barcito.dto';
 import { UpdateBarcitoDto } from './dto/update-barcito.dto';
-import { RolesGuard } from '../common/guards/roles.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { fileFilter, fileNamer } from '../files/helpers';
+import { fileFilter, fileNamer } from 'src/files/helpers';
 import { diskStorage } from 'multer';
 import { BadRequestException } from '@nestjs/common';
 

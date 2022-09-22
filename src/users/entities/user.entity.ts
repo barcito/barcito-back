@@ -1,5 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Role } from './role.enum';
+import { Application } from '../../applications/entities/application.entity';
 
 @Entity()
 export class User {
@@ -24,4 +32,16 @@ export class User {
     nullable: true,
   })
   public refreshToken: string;
+
+  //Solicitudes
+  @OneToOne(() => Application, { nullable: true })
+  @JoinColumn()
+  applicationDone: Application;
+
+  @OneToMany(
+    () => Application,
+    (applicationsValidated: Application) => applicationsValidated.validatorUser,
+    { nullable: true },
+  )
+  applicationsValidated?: Application[];
 }

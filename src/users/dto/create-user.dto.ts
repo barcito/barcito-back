@@ -1,5 +1,7 @@
-import { IsString } from '@nestjs/class-validator';
-import { IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+} from '@nestjs/class-validator';
 
 export class CreateUserDto {
   @IsString()
