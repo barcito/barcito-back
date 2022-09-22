@@ -37,7 +37,7 @@ export class AuthService {
     });
     const tokens = await this.getTokens(newUser.id, newUser.email, newUser.roles);
     await this.updateRefreshToken(newUser.id, tokens.refreshToken);
-    return tokens;
+    return { ...tokens, newUser};
   }
 
   /**
@@ -54,7 +54,7 @@ export class AuthService {
     if(!passwordMatches) throw new BadRequestException('Bad credentials');
     const tokens = await this.getTokens(user.id, user.email, user.roles);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
-    return tokens;
+    return { ...tokens, user};
   }
 
   /**
@@ -100,7 +100,7 @@ export class AuthService {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
-          sub: userId,
+          id: userId,
           email,
           roles
         },
@@ -111,7 +111,7 @@ export class AuthService {
       ),
       this.jwtService.signAsync(
         {
-          sub: userId,
+          id: userId,
           email,
           roles
         },
