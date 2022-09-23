@@ -1,13 +1,13 @@
-import { IsInt, IsString } from '@nestjs/class-validator';
+import { IsNumber, IsString } from '@nestjs/class-validator';
 
 export class CreateBarcitoDto {
   @IsString()
   academicUnit: string;
 
-  @IsInt()
+  @IsNumber()
   openTime: number;
 
-  @IsInt()
+  @IsNumber()
   closeTime: number;
 
   @IsString()

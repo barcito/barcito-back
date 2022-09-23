@@ -18,7 +18,7 @@ import { CreateBarcitoDto } from './dto/create-barcito.dto';
 import { UpdateBarcitoDto } from './dto/update-barcito.dto';
 import { RolesGuard } from 'common/guards/roles.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { fileFilter, fileNamer } from 'files/helpers';
+import { barcitoFileFilter, barcitoFileNamer } from 'files/helpers';
 import { diskStorage } from 'multer';
 import { BadRequestException } from '@nestjs/common';
 
@@ -31,15 +31,15 @@ export class BarcitosController {
   @Post()
   @UseInterceptors(
     FileInterceptor('file', {
-      fileFilter: fileFilter,
+      fileFilter: barcitoFileFilter,
       limits: { fileSize: 10000000 },
       storage: diskStorage({
         destination: '../files-storage/barcitos',
-        filename: fileNamer,
+        filename: barcitoFileNamer,
       }),
     }),
   )
-  create(
+  async create(
     @UploadedFile() file: Express.Multer.File,
     @Body() createBarcitoDto: CreateBarcitoDto,
   ) {
@@ -48,7 +48,9 @@ export class BarcitosController {
 
     createBarcitoDto.imagePath = `${process.env.HOST_API}files/barcito/${file.filename}`;
 
-    return this.barcitosService.create(createBarcitoDto);
+    const barcito = await this.barcitosService.create(createBarcitoDto);
+
+    return barcito;
   }
 
   @Get()

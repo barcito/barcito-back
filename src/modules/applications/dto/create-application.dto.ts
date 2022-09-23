@@ -1,5 +1,4 @@
-import { IsEnum, IsNumber, IsString } from '@nestjs/class-validator';
-import { IsOptional } from 'class-validator';
+import { IsEnum, IsNumber, IsString, IsOptional } from '@nestjs/class-validator';
 import { Status } from 'enums/status.enum';
 import { User } from 'modules/users/entities/user.entity';
 

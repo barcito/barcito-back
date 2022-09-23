@@ -10,6 +10,8 @@ import {
   Req,
   BadRequestException,
   NotFoundException,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { Roles } from 'common/decorators/roles.decorator';
 import { Role } from 'enums/role.enum';
@@ -20,25 +22,53 @@ import { RolesGuard } from 'common/guards/roles.guard';
 import { ParseIntPipe } from '@nestjs/common';
 import { UsersService } from 'modules/users/users.service';
 import { Request } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { applicationFileFilter, applicationFileNamer } from 'files/helpers';
+import { diskStorage } from 'multer';
 
 @Controller('applications')
 export class ApplicationsController {
   constructor(
     private readonly applicationsService: ApplicationsService,
-    private readonly usersService: UsersService
-    ) {}
+    private readonly usersService: UsersService,
+  ) {}
 
   //endpoint solo para usuario
   @Roles(Role.CLIENT)
   @Post()
-  async create(@Body() createApplicationDto: CreateApplicationDto, @Req() request: Request) {
+  @UseInterceptors(
+    FileInterceptor('file', {
+      fileFilter: applicationFileFilter,
+      limits: { fileSize: 10000000 },
+      storage: diskStorage({
+        destination: '../files-storage/applications',
+        filename: applicationFileNamer,
+      }),
+    }),
+  )
+  async create(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() createApplicationDto: CreateApplicationDto,
+    @Req() request: Request,
+  ) {
+    if (!file)
+      throw new BadRequestException('Make sure image is of a valid type');
+
     const userId = request.user['id'];
-    const application = await this.applicationsService.create(createApplicationDto);
-    if(!application)
-      throw new BadRequestException('Cannot create aplication');
-    const user = await this.usersService.generateApplication(userId, application);
-    if(!user)
-      throw new NotFoundException('User not found');
+    createApplicationDto.certificatePath = `${process.env.HOST_API}files/application/${file.filename}`;
+
+    //! NO ME CAMBIA EL PATH
+    //! Barcito me andaba con form data asi como esta
+
+    const application = await this.applicationsService.create(
+      createApplicationDto,
+    );
+    if (!application) throw new BadRequestException('Cannot create aplication');
+    const user = await this.usersService.generateApplication(
+      userId,
+      application,
+    );
+    if (!user) throw new NotFoundException('User not found');
     return application;
   }
 
@@ -63,15 +93,16 @@ export class ApplicationsController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateApplicationDto: UpdateApplicationDto,
-    @Req() request: Request
+    @Req() request: Request,
   ) {
     const userId = request.user['id'];
-    const application = await this.applicationsService.update(id, updateApplicationDto);
-    if(!application)
-      throw new BadRequestException('Application not found');
+    const application = await this.applicationsService.update(
+      id,
+      updateApplicationDto,
+    );
+    if (!application) throw new BadRequestException('Application not found');
     const user = await this.usersService.manageApplication(userId, application);
-    if(!user)
-      throw new NotFoundException('User not found');
+    if (!user) throw new NotFoundException('User not found');
     return application;
   }
 

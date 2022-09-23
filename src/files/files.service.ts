@@ -1,7 +1,6 @@
 import { join } from 'path';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { existsSync } from 'fs';
-import { arrayBuffer } from 'stream/consumers';
 
 @Injectable()
 export class FilesService {

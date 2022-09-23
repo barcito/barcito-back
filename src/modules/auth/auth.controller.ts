@@ -36,7 +36,7 @@ export class AuthController {
     const { accessToken, refreshToken, user } = await this.authService.signIn(data);
     response.cookie('accessToken', accessToken, { httpOnly: true, domain: this.frontendDomain });
     response.cookie('refreshToken', refreshToken, { httpOnly: true, domain: this.frontendDomain });
-    return { email: user.email, roles: user.roles };
+    return { email: user.email, roles: user.roles, refreshToken: user.refreshToken };
   }
 
   @Get('logout')
