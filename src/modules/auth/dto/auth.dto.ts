@@ -1,4 +1,4 @@
-import { Role } from "src/users/entities/role.enum";
+import { Role } from "enums/role.enum";
 
 export class AuthDto {
     email: string;

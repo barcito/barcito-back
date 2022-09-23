@@ -6,8 +6,8 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Role } from './role.enum';
-import { Application } from '../../applications/entities/application.entity';
+import { Role } from 'enums/role.enum';
+import { Application } from 'modules/applications/entities/application.entity';
 
 @Entity()
 export class User {
@@ -33,7 +33,22 @@ export class User {
   })
   public refreshToken: string;
 
-  //Solicitudes
+  @Column()
+  public name: string;
+
+  @Column()
+  public surname: string;
+
+  @Column()
+  public dni: string;
+
+  @Column()
+  public academicUnit: string;
+
+  @Column()
+  public phone: string;
+
+  //Solicitudes y certificados
   @OneToOne(() => Application, { nullable: true })
   @JoinColumn()
   applicationDone: Application;

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../users/entities/user.entity';
-import { Application } from '../applications/entities/application.entity';
-import { Barcito } from '../barcitos/entities/barcito.entity';
+import { User } from 'modules/users/entities/user.entity';
+import { Application } from 'modules/applications/entities/application.entity';
+import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 
 @Module({
   imports: [

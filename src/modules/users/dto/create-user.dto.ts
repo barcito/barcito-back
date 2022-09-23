@@ -3,7 +3,7 @@ import {
   IsOptional,
   IsNumber,
 } from '@nestjs/class-validator';
-import { Application } from 'src/applications/entities/application.entity';
+import { Application } from 'modules/applications/entities/application.entity';
 
 export class CreateUserDto {
   @IsString()

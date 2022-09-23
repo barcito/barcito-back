@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, UseGuards, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CreateUserDto } from 'modules/users/dto/create-user.dto';
 import { AuthDto } from './dto/auth.dto';
-import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
-import { Public } from 'src/common/decorators/public.decorator';
+import { RefreshTokenGuard } from 'common/guards/refreshToken.guard';
+import { Public } from 'common/decorators/public.decorator';
 import { ConfigService } from '@nestjs/config';
 
 

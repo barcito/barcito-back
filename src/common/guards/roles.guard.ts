@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
-import { Role } from 'src/users/entities/role.enum';
+import { Role } from 'enums/role.enum';
 
 /**
  * Guard that protects the resource from being accessed without proper authorization

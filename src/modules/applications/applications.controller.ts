@@ -11,14 +11,14 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { Roles } from 'src/common/decorators/roles.decorator';
-import { Role } from 'src/users/entities/role.enum';
+import { Roles } from 'common/decorators/roles.decorator';
+import { Role } from 'enums/role.enum';
 import { ApplicationsService } from './applications.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationDto } from './dto/update-application.dto';
-import { RolesGuard } from '../common/guards/roles.guard';
+import { RolesGuard } from 'common/guards/roles.guard';
 import { ParseIntPipe } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'modules/users/users.service';
 import { Request } from 'express';
 
 @Controller('applications')

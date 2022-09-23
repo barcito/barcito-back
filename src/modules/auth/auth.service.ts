@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { UsersService } from 'src/users/users.service';
+import { CreateUserDto } from 'modules/users/dto/create-user.dto';
+import { UsersService } from 'modules/users/users.service';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthDto } from './dto/auth.dto';
 import { ForbiddenException } from '@nestjs/common/exceptions';
-import { Role } from 'src/users/entities/role.enum';
+import { Role } from 'enums/role.enum';
 
 @Injectable()
 export class AuthService {
