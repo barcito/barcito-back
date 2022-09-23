@@ -9,6 +9,7 @@ import {
 import { Role } from 'enums/role.enum';
 import { Application } from 'modules/applications/entities/application.entity';
 import { AcademicUnit } from 'enums/academicUnit.enum';
+import { Exclude } from '@nestjs/class-transformer';
 
 @Entity()
 export class User {
@@ -19,6 +20,7 @@ export class User {
   public email: string;
 
   @Column()
+  @Exclude()
   public password: string;
 
   @Column()
@@ -35,7 +37,8 @@ export class User {
 
   @Column({
     type: 'enum',
-    enum: AcademicUnit
+    enum: AcademicUnit,
+    default: AcademicUnit.NONE
   })
   public academicUnit: AcademicUnit;
 
@@ -62,5 +65,5 @@ export class User {
     (applicationsValidated: Application) => applicationsValidated.validatorUser,
     { nullable: true },
   )
-  applicationsValidated?: Application[];
+  applicationsValidated: Application[];
 }

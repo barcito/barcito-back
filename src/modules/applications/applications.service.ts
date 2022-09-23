@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationDto } from './dto/update-application.dto';
 import { Application } from './entities/application.entity';
@@ -9,32 +9,37 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class ApplicationsService {
   constructor(
     @InjectRepository(Application)
-    private ApplicationRepository: Repository<Application>,
+    private applicationRepository: Repository<Application>,
   ) {}
 
   async create(
     createApplicationDto: CreateApplicationDto,
   ): Promise<Application> {
-    const createdApplication = await this.ApplicationRepository.create(
+    const createdApplication = this.applicationRepository.create(
       createApplicationDto,
     );
-    await this.ApplicationRepository.save(createdApplication);
+    await this.applicationRepository.save(createdApplication);
     return createdApplication;
   }
 
   findAll() {
-    return;
+    return this.applicationRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} application`;
+  async findById(id: number) {
+    const application = await this.applicationRepository.findOne({ where: { id } });
+    if(!application) throw new NotFoundException('Application not found');
+    return application;
   }
 
-  update(id: number, updateApplicationDto: UpdateApplicationDto) {
-    return `This action updates a #${id} application`;
+  async update(id: number, updateApplicationDto: UpdateApplicationDto) {
+    await this.applicationRepository.update(id, updateApplicationDto);
+    const updatedApplication = await this.findById(id);
+    return updatedApplication;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} application`;
+  async remove(id: number) {
+    const deleteResponse = await this.applicationRepository.delete(id);
+    if (!deleteResponse.affected) throw new NotFoundException('Application not found');
   }
 }

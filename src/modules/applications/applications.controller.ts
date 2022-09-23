@@ -28,14 +28,15 @@ export class ApplicationsController {
     private readonly usersService: UsersService
     ) {}
 
-    //endpoint solo para usuario
+  //endpoint solo para usuario
+  @Roles(Role.CLIENT)
   @Post()
   async create(@Body() createApplicationDto: CreateApplicationDto, @Req() request: Request) {
     const userId = request.user['id'];
     const application = await this.applicationsService.create(createApplicationDto);
     if(!application)
       throw new BadRequestException('Cannot create aplication');
-    const user = await this.usersService.updateApplication(userId, application);
+    const user = await this.usersService.generateApplication(userId, application);
     if(!user)
       throw new NotFoundException('User not found');
     return application;
@@ -52,17 +53,26 @@ export class ApplicationsController {
   @UseGuards(RolesGuard)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.applicationsService.findOne(id);
+    return this.applicationsService.findById(id);
   }
 
-  @Roles(Role.ADMIN)
+  //endpoint para managers
+  @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(RolesGuard)
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateApplicationDto: UpdateApplicationDto,
+    @Req() request: Request
   ) {
-    return this.applicationsService.update(id, updateApplicationDto);
+    const userId = request.user['id'];
+    const application = await this.applicationsService.update(id, updateApplicationDto);
+    if(!application)
+      throw new BadRequestException('Application not found');
+    const user = await this.usersService.manageApplication(userId, application);
+    if(!user)
+      throw new NotFoundException('User not found');
+    return application;
   }
 
   @Roles(Role.ADMIN)
