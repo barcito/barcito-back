@@ -8,11 +8,36 @@ import {
 } from 'typeorm';
 import { Role } from 'enums/role.enum';
 import { Application } from 'modules/applications/entities/application.entity';
+import { AcademicUnit } from 'enums/academicUnit.enum';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   public id: number;
+
+  @Column({ unique: true })
+  public email: string;
+
+  @Column()
+  public password: string;
+
+  @Column()
+  public name: string;
+
+  @Column()
+  public surname: string;
+
+  @Column({ unique: true })
+  public dni: number;
+
+  @Column()
+  public phone: number;
+
+  @Column({
+    type: 'enum',
+    enum: AcademicUnit
+  })
+  public academicUnit: AcademicUnit;
 
   @Column({
     type: 'enum',
@@ -22,31 +47,10 @@ export class User {
   })
   public roles: Role[];
 
-  @Column({ unique: true })
-  public email: string;
-
-  @Column()
-  public password: string;
-
   @Column({
     nullable: true,
   })
   public refreshToken: string;
-
-  @Column()
-  public name: string;
-
-  @Column()
-  public surname: string;
-
-  @Column()
-  public dni: string;
-
-  @Column()
-  public academicUnit: string;
-
-  @Column()
-  public phone: string;
 
   //Solicitudes y certificados
   @OneToOne(() => Application, { nullable: true })

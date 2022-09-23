@@ -2,7 +2,10 @@ import {
   IsString,
   IsOptional,
   IsNumber,
+  IsEnum,
+  IsArray,
 } from '@nestjs/class-validator';
+import { AcademicUnit } from 'enums/academicUnit.enum';
 import { Application } from 'modules/applications/entities/application.entity';
 
 export class CreateUserDto {
@@ -12,6 +15,22 @@ export class CreateUserDto {
   @IsString()
   password: string;
 
+  @IsString()
+  name: string;
+
+  @IsString()
+  surname: string;
+
+  @IsNumber()
+  dni: number;
+
+  @IsNumber()
+  phone: number;
+
+  @IsOptional()
+  @IsEnum(AcademicUnit)
+  academicUnit: string;
+
   @IsOptional()
   @IsString()
   refreshToken: string;
@@ -19,4 +38,8 @@ export class CreateUserDto {
   @IsOptional()
   @IsNumber()
   applicationDone: Application;
+
+  @IsOptional()
+  @IsArray()
+  applicationsValidated: Application[];
 }
