@@ -29,7 +29,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsEnum(AcademicUnit)
-  academicUnit: string;
+  academicUnit: AcademicUnit;
 
   @IsOptional()
   @IsString()

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Application } from 'modules/applications/entities/application.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -20,7 +20,7 @@ export class UsersService {
     return createdUser;
   }
 
-  async findAll(): Promise<User[]> {
+  findAll(): Promise<User[]> {
     return this.usersRepository.find();
   }
 
@@ -46,11 +46,19 @@ export class UsersService {
     if (!deleteResponse.affected) throw new NotFoundException('User not found');
   }
 
-  async updateApplication(id: number, idApplication: Application){
+  async generateApplication(id: number, idApplication: Application){
     const user = await this.findById(id);
     if(!user){
       throw new NotFoundException('User not found');
     }
     return await this.update(id, { applicationDone: idApplication });
+  }
+
+  async manageApplication(id: number, application: Application){
+    const user = await this.findById(id);
+    if(!user){
+      throw new NotFoundException('User not found');
+    }
+    return await this.update(id, { applicationsValidated: [...user.applicationsValidated, application] });
   }
 }

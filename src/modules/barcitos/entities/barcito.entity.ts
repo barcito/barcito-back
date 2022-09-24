@@ -3,20 +3,20 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Barcito {
   @PrimaryGeneratedColumn()
-  public id: number;
+  id: number;
 
   @Column()
-  public academicUnit: string;
+  academicUnit: string;
 
   @Column()
-  public openTime: number;
+  openTime: number;
 
   @Column()
-  public closeTime: number;
+  closeTime: number;
 
   @Column()
-  public location: string;
+  location: string;
 
   @Column()
-  public imagePath: string;
+  imagePath: string;
 }

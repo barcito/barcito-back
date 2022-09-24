@@ -1,7 +1,6 @@
 import { join } from 'path';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { existsSync } from 'fs';
-import { arrayBuffer } from 'stream/consumers';
 
 @Injectable()
 export class FilesService {
@@ -14,6 +13,19 @@ export class FilesService {
 
     if (!existsSync(path))
       throw new BadRequestException('Barcito image not found');
+
+    return path;
+  }
+
+  getApplicationDoc(docName: string) {
+    const path = join(
+      __dirname,
+      '../../../files-storage/applications',
+      `${docName}`,
+    );
+
+    if (!existsSync(path))
+      throw new BadRequestException('Application document not found');
 
     return path;
   }
