@@ -1,18 +1,19 @@
-import { IsNumber, IsString } from '@nestjs/class-validator';
+import { IsNumberString, IsOptional, IsString } from '@nestjs/class-validator';
 
 export class CreateBarcitoDto {
   @IsString()
   academicUnit: string;
 
-  @IsNumber()
+  @IsNumberString()
   openTime: number;
 
-  @IsNumber()
+  @IsNumberString()
   closeTime: number;
 
   @IsString()
   location: string;
 
+  @IsOptional()
   @IsString()
   imagePath: string;
 }

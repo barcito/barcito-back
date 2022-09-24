@@ -30,7 +30,7 @@ export class BarcitosController {
   @UseGuards(RolesGuard)
   @Post()
   @UseInterceptors(
-    FileInterceptor('file', {
+    FileInterceptor('barcito_img', {
       fileFilter: barcitoFileFilter,
       limits: { fileSize: 10000000 },
       storage: diskStorage({
@@ -46,8 +46,7 @@ export class BarcitosController {
     if (!file)
       throw new BadRequestException('Make sure image is of a valid type');
 
-    createBarcitoDto.imagePath = `${process.env.HOST_API}files/barcito/${file.filename}`;
-
+    createBarcitoDto.imagePath = `${process.env.HOST_API}files/barcitos/${file.filename}`;
     const barcito = await this.barcitosService.create(createBarcitoDto);
 
     return barcito;

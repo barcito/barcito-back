@@ -6,12 +6,22 @@ import { Response } from 'express';
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
-  @Get('barcito/:imageName')
+  @Get('barcitos/:imageName')
   findBarcitoImage(
     @Res() res: Response,
     @Param('imageName') imageName: string,
   ) {
     const path = this.filesService.getBarcitoImage(imageName);
+
+    res.sendFile(path);
+  }
+
+  @Get('applications/:docName')
+  findApplicationDoc(
+    @Res() res: Response,
+    @Param('docName') docName: string,
+  ) {
+    const path = this.filesService.getApplicationDoc(docName);
 
     res.sendFile(path);
   }

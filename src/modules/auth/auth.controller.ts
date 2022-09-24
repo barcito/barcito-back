@@ -46,6 +46,7 @@ export class AuthController {
     response.clearCookie('refreshToken', { httpOnly: true, domain: this.frontendDomain, });
   }
 
+  @Public()
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
   async refreshTokens(@Req() req: Request, @Res({ passthrough: true }) response: Response) {

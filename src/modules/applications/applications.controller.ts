@@ -37,7 +37,7 @@ export class ApplicationsController {
   @Roles(Role.CLIENT)
   @Post()
   @UseInterceptors(
-    FileInterceptor('file', {
+    FileInterceptor('application_doc', {
       fileFilter: applicationFileFilter,
       limits: { fileSize: 10000000 },
       storage: diskStorage({
@@ -55,10 +55,7 @@ export class ApplicationsController {
       throw new BadRequestException('Make sure image is of a valid type');
 
     const userId = request.user['id'];
-    createApplicationDto.certificatePath = `${process.env.HOST_API}files/application/${file.filename}`;
-
-    //! NO ME CAMBIA EL PATH
-    //! Barcito me andaba con form data asi como esta
+    createApplicationDto.certificatePath = `${process.env.HOST_API}files/applications/${file.filename}`;
 
     const application = await this.applicationsService.create(
       createApplicationDto,

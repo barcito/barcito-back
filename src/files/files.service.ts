@@ -16,4 +16,17 @@ export class FilesService {
 
     return path;
   }
+
+  getApplicationDoc(docName: string) {
+    const path = join(
+      __dirname,
+      '../../../files-storage/applications',
+      `${docName}`,
+    );
+
+    if (!existsSync(path))
+      throw new BadRequestException('Application document not found');
+
+    return path;
+  }
 }
