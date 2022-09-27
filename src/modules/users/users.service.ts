@@ -6,6 +6,7 @@ import { Not, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import * as argon2 from 'argon2';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +16,10 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    createUserDto = {
+      ...createUserDto,
+      password: await argon2.hash(createUserDto.password)
+    }
     const createdUser = this.usersRepository.create(createUserDto);
     await this.usersRepository.save(createdUser);
     return createdUser;
@@ -36,6 +41,11 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    if(updateUserDto.password)
+      updateUserDto = {
+        ...updateUserDto,
+        password: await argon2.hash(updateUserDto.password)
+    }
     await this.usersRepository.update(id, updateUserDto);
     const updatedUser = await this.findById(id);
     return updatedUser;
