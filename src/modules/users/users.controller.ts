@@ -25,10 +25,11 @@ export class UsersController {
     return this.usersService.findById(id);
   }
 
-  /* @Get('/email/:email')
-  findOneByEmail(@Param(':email') email: string) {
+  @Get('/email/:email')
+  findOneByEmail(@Param('email') email: string) {
+    console.log(email);
     return this.usersService.findByEmail(email);
-  } //es necesario? */
+  }
 
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
