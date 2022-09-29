@@ -22,11 +22,11 @@ export class CreateUserDto {
   @IsString()
   surname: string;
 
-  @IsNumberString()
-  dni: number;
+  @IsString()
+  dni: string;
 
-  @IsNumberString()
-  phone: number;
+  @IsString()
+  phone: string;
 
   @IsOptional()
   @IsEnum(AcademicUnit)

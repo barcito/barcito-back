@@ -30,10 +30,10 @@ export class User {
   public surname: string;
 
   @Column({ unique: true })
-  public dni: number;
+  public dni: string;
 
   @Column()
-  public phone: number;
+  public phone: string;
 
   @Column({
     type: 'enum',
