@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { User } from 'modules/users/entities/user.entity';
 import { Status } from 'enums/status.enum';
 
@@ -17,10 +23,7 @@ export class Application {
   })
   status: Status;
 
-  @OneToOne(
-    () => User,
-    (applicantUser: User) => applicantUser.applicationDone,
-  )
+  @OneToOne(() => User, (applicantUser: User) => applicantUser.applicationDone)
   applicantUser: User;
 
   @ManyToOne(
