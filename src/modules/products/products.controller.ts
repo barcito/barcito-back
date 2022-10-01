@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -14,7 +15,6 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Roles } from 'common/decorators/roles.decorator';
 import { Role } from 'enums/role.enum';
 import { RolesGuard } from 'common/guards/roles.guard';
-import { ParseIntPipe } from '@nestjs/common';
 
 @Controller('products')
 export class ProductsController {
@@ -35,6 +35,11 @@ export class ProductsController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.findById(id);
+  }
+
+  @Get('search/:query')
+  search(@Param('query') query: string) {
+    return this.productsService.findAllSearched(query);
   }
 
   @Roles(Role.MANAGER, Role.SUBMANAGER, Role.ADMIN)

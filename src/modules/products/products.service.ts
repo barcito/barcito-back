@@ -29,19 +29,23 @@ export class ProductsService {
     return product;
   }
 
-  async findAllSearched(search: string): Promise<Product[]> {
+  async findAllSearched(query: string): Promise<Product[]> {
     return this.productsRepository.find({
       where: {
-        description: Like(`%${search}%`),
+        description: Like(`%${query}%`),
       },
     });
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    await this.productsRepository.update(id, updateProductDto);
+    const updatedProduct = this.findById(id);
+    return updatedProduct;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number) {
+    const deleteResponse = await this.productsRepository.delete(id);
+    if (!deleteResponse.affected)
+      throw new NotFoundException('Product not found');
   }
 }

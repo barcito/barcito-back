@@ -1,9 +1,10 @@
 import { Transform } from '@nestjs/class-transformer';
-import { IsBoolean, IsDate, IsEnum, IsString } from '@nestjs/class-validator';
-import { IsNumber } from 'class-validator';
+import { IsBoolean, IsDate, IsEnum, IsNumberString, IsString } from '@nestjs/class-validator';
+import { IsNumber, IsOptional } from 'class-validator';
 import { ProductCategory } from 'enums/productCategory.enum';
 
 export class CreateProductDto {
+  @IsOptional()
   @IsEnum(ProductCategory)
   category: ProductCategory;
 
@@ -31,7 +32,7 @@ export class CreateProductDto {
   @IsNumber()
   lowStockWarning: number;
 
-  @Transform((val) => BigInt(val.value))
+  @IsString()
   lastRestock: string;
 
   @IsString()

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Product } from 'modules/products/entities/product.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Barcito {
@@ -19,4 +20,10 @@ export class Barcito {
 
   @Column()
   imagePath: string;
+
+  //Productos del barcito
+  @OneToMany(() => Product, (products: Product) => products.barcito, {
+    nullable: true,
+  })
+  products: Product[];
 }

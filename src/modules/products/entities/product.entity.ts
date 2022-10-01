@@ -1,5 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ProductCategory } from 'enums/productCategory.enum';
+import { Barcito } from 'modules/barcitos/entities/barcito.entity';
+import { Supply } from 'modules/supplies/entities/supply.entity';
 
 @Entity()
 export class Product {
@@ -17,13 +26,13 @@ export class Product {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ type: 'real' })
   buyPrice: number;
 
-  @Column()
+  @Column({ type: 'real' })
   finalSellPrice: number;
 
-  @Column()
+  @Column({ type: 'real' })
   associatedSellPrice: number;
 
   @Column()
@@ -38,9 +47,18 @@ export class Product {
   @Column()
   lowStockWarning: number;
 
-  @Column({ type: 'bigint' })
+  @Column()
   lastRestock: string;
 
   @Column()
   imagePath: string;
+
+  //Barcito relationship
+  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.products)
+  barcito: Barcito;
+
+  //Supply relationship
+  @ManyToMany(() => Supply)
+  @JoinTable()
+  supplies: Supply[];
 }

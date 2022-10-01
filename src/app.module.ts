@@ -6,7 +6,8 @@ import { AuthModule } from 'modules/auth/auth.module';
 import { BarcitosModule } from 'modules/barcitos/barcitos.module';
 import { FilesModule } from 'files/files.module';
 import { ApplicationsModule } from 'modules/applications/applications.module';
-import { ProductsModule } from './products/products.module';
+import { ProductsModule } from './modules/products/products.module';
+import { SuppliesModule } from './modules/supplies/supplies.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProductsModule } from './products/products.module';
     FilesModule,
     ApplicationsModule,
     ProductsModule,
+    SuppliesModule,
   ],
 })
 export class AppModule {}
