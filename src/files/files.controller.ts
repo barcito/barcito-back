@@ -25,4 +25,14 @@ export class FilesController {
 
     res.sendFile(path);
   }
+
+  @Get('products/:imageName')
+  findProductImage(
+    @Res() res: Response,
+    @Param('imageName') imageName: string,
+  ){
+    const path = this.filesService.getProductImage(imageName);
+
+    res.sendFile(path);
+  }
 }
