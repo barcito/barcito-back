@@ -6,6 +6,9 @@ export class Barcito {
   id: number;
 
   @Column()
+  name: string;
+
+  @Column()
   academicUnit: string;
 
   @Column()
