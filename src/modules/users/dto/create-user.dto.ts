@@ -8,6 +8,7 @@ import {
 } from '@nestjs/class-validator';
 import { AcademicUnit } from 'enums/academicUnit.enum';
 import { Application } from 'modules/applications/entities/application.entity';
+import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 
 export class CreateUserDto {
   @IsString()
@@ -43,4 +44,7 @@ export class CreateUserDto {
   @IsOptional()
   @IsArray()
   applicationsValidated: Application[];
+
+  @IsOptional()
+  barcitoManaged: Barcito;
 }

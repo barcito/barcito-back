@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'modules/users/entities/user.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Barcito {
@@ -22,4 +23,11 @@ export class Barcito {
 
   @Column()
   imagePath: string;
+
+  @OneToMany(
+    () => User,
+    (manager: User) => manager.barcitoManaged,
+    { nullable: true}
+  )
+  managers: User[];
 }
