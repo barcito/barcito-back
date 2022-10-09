@@ -24,8 +24,11 @@ export class Supply {
   @Column()
   lowStockWarning: number;
 
+  @Column({ type: 'real' })
+  lastRestock: number;
+
   //Product relationship
   @ManyToMany(() => Product)
-  @JoinTable()
+  // @JoinTable()
   products: Product[];
 }

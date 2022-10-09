@@ -5,15 +5,20 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { Repository, Like } from 'typeorm';
 import { NotFoundException } from '@nestjs/common/exceptions';
+import { Supply } from 'modules/supplies/entities/supply.entity';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
+    @InjectRepository(Supply)
+    private suppliesRepository: Repository<Supply>,
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
+    const supplies = await this.suppliesRepository.findByIds(createProductDto.supplies);
+    createProductDto.supplies = supplies;
     const createdProduct = this.productsRepository.create(createProductDto);
     await this.productsRepository.save(createdProduct);
     return createdProduct;

@@ -1,16 +1,18 @@
-import { IsString } from "@nestjs/class-validator";
-import { IsNumber } from "class-validator";
+import { IsNumberString, IsString } from '@nestjs/class-validator';
 
 export class CreateSupplyDto {
-    @IsString()
-    description: string;
+  @IsString()
+  description: string;
 
-    @IsNumber()
-    buyPrice: number;
+  @IsNumberString()
+  buyPrice: number;
 
-    @IsNumber()
-    stock: number;
+  @IsNumberString()
+  stock: number;
 
-    @IsNumber()
-    lowStockWarning: number;
+  @IsNumberString()
+  lowStockWarning: number;
+
+  @IsNumberString()
+  lastRestock: number;
 }

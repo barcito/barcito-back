@@ -1,7 +1,8 @@
 import { Transform } from '@nestjs/class-transformer';
-import { IsBoolean, IsDate, IsEnum, IsNumberString, IsString } from '@nestjs/class-validator';
+import { IsArray, IsBoolean, IsDate, IsEnum, IsNumberString, IsString } from '@nestjs/class-validator';
 import { IsNumber, IsOptional } from 'class-validator';
 import { ProductCategory } from 'enums/productCategory.enum';
+import { Supply } from 'modules/supplies/entities/supply.entity';
 
 export class CreateProductDto {
   @IsOptional()
@@ -11,30 +12,39 @@ export class CreateProductDto {
   @IsString()
   description: string;
 
-  @IsNumber()
+  @IsNumberString()
   buyPrice: number;
 
-  @IsNumber()
+  @IsNumberString()
   finalSellPrice: number;
 
-  @IsNumber()
+  @IsNumberString()
   associatedSellPrice: number;
 
-  @IsNumber()
+  @IsNumberString()
   discount: number;
 
-  @IsNumber()
+  @IsNumberString()
   stock: number;
 
-  @IsNumber()
+  @IsNumberString()
   available: number;
 
-  @IsNumber()
+  @IsNumberString()
   lowStockWarning: number;
 
   @IsString()
   lastRestock: string;
 
+  @IsOptional()
   @IsString()
   imagePath: string;
+
+  @IsOptional()
+  @IsArray()
+  suppliesIds: number[];
+
+  @IsOptional()
+  @IsArray()
+  supplies: Supply[];
 }

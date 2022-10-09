@@ -59,6 +59,14 @@ export class Product {
 
   //Supply relationship
   @ManyToMany(() => Supply)
-  @JoinTable()
+  @JoinTable({
+    name: 'product_supplies',
+    joinColumn: {
+      name: 'product_id',
+    },
+    inverseJoinColumn: {
+      name: 'supply_id',
+    },
+  })
   supplies: Supply[];
 }
