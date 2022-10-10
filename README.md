@@ -45,29 +45,17 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## Docker Installation
 
-```bash
-# unit tests
-$ npm run test
+### Docker for Windows
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+1. Download and install Docker Desktop.
+2. Generate `.env` and `docker.env` based on examples inside cloned repo root.
+3. Run `docker compose up` in a project's terminal.
+4. In another console, run `docker ps` once previous step is finished.
+5. Inspect ContainerID running `docker inspect dbcontainerid | grep IPAddress (grep for Linux, findstr for Windows)` referencing Postgres.
+6. Go to localhost:8080 and login with your corresponding crendtials defined on your `docker.env` generated on step 2.
+7. Once inside pgAdmin, right click on "servers" and create a new one.
+8. Name your server as "barcitobd", in the connection tab add the ip you obtained on step 5.
+9. Add you `docker.env` credentials defined on step 2.
+10. Click on "save"
