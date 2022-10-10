@@ -2,6 +2,9 @@ import { IsNumberString, IsOptional, IsString } from '@nestjs/class-validator';
 
 export class CreateBarcitoDto {
   @IsString()
+  name: string;
+
+  @IsString()
   academicUnit: string;
 
   @IsNumberString()

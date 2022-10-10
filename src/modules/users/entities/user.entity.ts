@@ -2,6 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -10,6 +11,7 @@ import { Role } from 'enums/role.enum';
 import { Application } from 'modules/applications/entities/application.entity';
 import { AcademicUnit } from 'enums/academic-unit.enum';
 import { Exclude } from '@nestjs/class-transformer';
+import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 
 @Entity()
 export class User {
@@ -66,4 +68,11 @@ export class User {
     { nullable: true },
   )
   applicationsValidated: Application[];
+
+  @ManyToOne(
+    () => Barcito,
+    (barcito: Barcito) => barcito.managers,
+    { nullable: true }
+  )
+  barcitoManaged: Barcito;
 }

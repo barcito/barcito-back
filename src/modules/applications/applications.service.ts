@@ -24,7 +24,7 @@ export class ApplicationsService {
 
   findAll() {
     return this.applicationRepository.find({
-      relations:{
+      relations: {
         applicantUser: true
       }
     });

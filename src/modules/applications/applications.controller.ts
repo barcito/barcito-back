@@ -93,13 +93,13 @@ export class ApplicationsController {
     @Req() request: Request,
   ) {
     const userId = request.user['id'];
+    const user = await this.usersService.findById(userId);
+    if (!user) throw new NotFoundException('User not found');
     const application = await this.applicationsService.update(
       id,
-      updateApplicationDto,
+      {...updateApplicationDto, validatorUser: user},
     );
     if (!application) throw new BadRequestException('Application not found');
-    const user = await this.usersService.manageApplication(userId, application);
-    if (!user) throw new NotFoundException('User not found');
     return application;
   }
 

@@ -20,7 +20,11 @@ export class BarcitosService {
   }
 
   async findAll(): Promise<Barcito[]> {
-    return this.BarcitoRepository.find();
+    return this.BarcitoRepository.find({
+      relations: {
+        managers: true
+      }
+    });
   }
 
   async findById(id: number): Promise<Barcito> {
