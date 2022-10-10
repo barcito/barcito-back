@@ -1,4 +1,6 @@
-import { IsNumberString, IsString } from '@nestjs/class-validator';
+import { IsNumberString, IsString, IsArray } from '@nestjs/class-validator';
+import { IsOptional } from 'class-validator';
+import { Product } from 'modules/products/entities/product.entity';
 
 export class CreateSupplyDto {
   @IsString()
@@ -15,4 +17,8 @@ export class CreateSupplyDto {
 
   @IsNumberString()
   lastRestock: number;
+
+  @IsOptional()
+  @IsArray()
+  products: Product[];
 }

@@ -1,7 +1,7 @@
 import { Transform } from '@nestjs/class-transformer';
 import { IsArray, IsBoolean, IsDate, IsEnum, IsNumberString, IsString } from '@nestjs/class-validator';
 import { IsNumber, IsOptional } from 'class-validator';
-import { ProductCategory } from 'enums/productCategory.enum';
+import { ProductCategory } from 'enums/product-category.enum';
 import { Supply } from 'modules/supplies/entities/supply.entity';
 
 export class CreateProductDto {

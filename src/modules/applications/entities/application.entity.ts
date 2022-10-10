@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from 'modules/users/entities/user.entity';
-import { Status } from 'enums/status.enum';
+import { ApplicationStatus } from 'enums/application-status.enum';
 
 @Entity()
 export class Application {
@@ -18,10 +18,10 @@ export class Application {
 
   @Column({
     type: 'enum',
-    enum: Status,
-    default: Status.PENDING,
+    enum: ApplicationStatus,
+    default: ApplicationStatus.PENDING,
   })
-  status: Status;
+  status: ApplicationStatus;
 
   @OneToOne(() => User, (applicantUser: User) => applicantUser.applicationDone)
   applicantUser: User;

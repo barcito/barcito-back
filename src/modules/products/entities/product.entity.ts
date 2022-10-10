@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ProductCategory } from 'enums/productCategory.enum';
+import { ProductCategory } from 'enums/product-category.enum';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { Supply } from 'modules/supplies/entities/supply.entity';
 
@@ -50,7 +50,7 @@ export class Product {
   @Column()
   lastRestock: string;
 
-  @Column()
+  @Column({nullable: true})
   imagePath: string;
 
   //Barcito relationship
@@ -58,7 +58,7 @@ export class Product {
   barcito: Barcito;
 
   //Supply relationship
-  @ManyToMany(() => Supply)
+  @ManyToMany(() => Supply, (supply: Supply) => supply.products)
   @JoinTable({
     name: 'product_supplies',
     joinColumn: {

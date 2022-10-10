@@ -17,15 +17,17 @@ export class ProductsService {
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
-    const supplies = await this.suppliesRepository.findByIds(createProductDto.supplies);
-    createProductDto.supplies = supplies;
     const createdProduct = this.productsRepository.create(createProductDto);
     await this.productsRepository.save(createdProduct);
     return createdProduct;
   }
 
   findAll(): Promise<Product[]> {
-    return this.productsRepository.find();
+    return this.productsRepository.find({
+      relations: {
+        supplies: true
+      }
+    });
   }
 
   async findById(id: number): Promise<Product> {

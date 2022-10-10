@@ -29,7 +29,7 @@ export class ProductsController {
   @Roles(Role.MANAGER, Role.SUBMANAGER, Role.ADMIN)
   @UseGuards(RolesGuard)
   @Post()
-  @UseInterceptors(
+  /* @UseInterceptors(
     FileInterceptor('product_img', {
       fileFilter: productFileFilter,
       limits: { fileSize: 10000000 },
@@ -38,15 +38,15 @@ export class ProductsController {
         filename: productFileNamer,
       }),
     }),
-  )
+  ) */
   async create(
-    @UploadedFile() file: Express.Multer.File,
+    /* @UploadedFile() file: Express.Multer.File, */
     @Body() createProductDto: CreateProductDto,
   ) {
-    if (!file)
+    /* if (!file)
       throw new BadRequestException('Make sure image is of a valid type');
 
-    createProductDto.imagePath = `${process.env.HOST_API}files/barcitos/${file.filename}`;
+    createProductDto.imagePath = `${process.env.HOST_API}files/barcitos/${file.filename}`; */
     const product = await this.productsService.create(createProductDto);
     return product;
   }
