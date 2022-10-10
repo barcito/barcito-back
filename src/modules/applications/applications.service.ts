@@ -23,7 +23,11 @@ export class ApplicationsService {
   }
 
   findAll() {
-    return this.applicationRepository.find();
+    return this.applicationRepository.find({
+      relations:{
+        applicantUser: true
+      }
+    });
   }
 
   async findById(id: number) {

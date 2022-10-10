@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Role } from 'enums/role.enum';
 import { Application } from 'modules/applications/entities/application.entity';
-import { AcademicUnit } from 'enums/academicUnit.enum';
+import { AcademicUnit } from 'enums/academic-unit.enum';
 import { Exclude } from '@nestjs/class-transformer';
 
 @Entity()
@@ -30,10 +30,10 @@ export class User {
   public surname: string;
 
   @Column({ unique: true })
-  public dni: number;
+  public dni: string;
 
   @Column()
-  public phone: number;
+  public phone: string;
 
   @Column({
     type: 'enum',

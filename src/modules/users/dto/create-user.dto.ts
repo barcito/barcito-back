@@ -6,7 +6,7 @@ import {
   IsArray,
   IsNumberString,
 } from '@nestjs/class-validator';
-import { AcademicUnit } from 'enums/academicUnit.enum';
+import { AcademicUnit } from 'enums/academic-unit.enum';
 import { Application } from 'modules/applications/entities/application.entity';
 
 export class CreateUserDto {
@@ -22,11 +22,11 @@ export class CreateUserDto {
   @IsString()
   surname: string;
 
-  @IsNumberString()
-  dni: number;
+  @IsString()
+  dni: string;
 
-  @IsNumberString()
-  phone: number;
+  @IsString()
+  phone: string;
 
   @IsOptional()
   @IsEnum(AcademicUnit)
