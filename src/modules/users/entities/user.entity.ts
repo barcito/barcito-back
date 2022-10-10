@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Role } from 'enums/role.enum';
 import { Application } from 'modules/applications/entities/application.entity';
-import { AcademicUnit } from 'enums/academicUnit.enum';
+import { AcademicUnit } from 'enums/academic-unit.enum';
 import { Exclude } from '@nestjs/class-transformer';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 
@@ -48,7 +48,7 @@ export class User {
     type: 'enum',
     enum: Role,
     array: true,
-    default: [Role.ADMIN, Role.USER],
+    default: [Role.USER],
   })
   public roles: Role[];
 

@@ -29,4 +29,17 @@ export class FilesService {
 
     return path;
   }
+
+  getProductImage(imageName: string) {
+    const path = join(
+      __dirname,
+      '../../../files-storage/barcitos',
+      `${imageName}`,
+    );
+
+    if (!existsSync(path))
+      throw new BadRequestException('Barcito image not found');
+
+    return path;
+  }
 }

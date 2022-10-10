@@ -4,6 +4,7 @@ import { Reflector } from '@nestjs/core';
 import { AccessTokenGuard } from 'common/guards/accessToken.guard';
 import { ValidateInputPipe } from 'common/pipes/validate.pipe';
 import * as cookieParser from 'cookie-parser';
+import { HttpExceptionFilter } from 'common/filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,7 @@ async function bootstrap() {
     credentials: true
   });
   app.use(cookieParser());
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidateInputPipe());
   app.useGlobalGuards(new AccessTokenGuard(reflector));

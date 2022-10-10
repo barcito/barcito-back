@@ -6,7 +6,7 @@ import {
   IsArray,
   IsNumberString,
 } from '@nestjs/class-validator';
-import { AcademicUnit } from 'enums/academicUnit.enum';
+import { AcademicUnit } from 'enums/academic-unit.enum';
 import { Application } from 'modules/applications/entities/application.entity';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 
