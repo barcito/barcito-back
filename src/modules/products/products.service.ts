@@ -5,15 +5,12 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { Repository, Like } from 'typeorm';
 import { NotFoundException } from '@nestjs/common/exceptions';
-import { Supply } from 'modules/supplies/entities/supply.entity';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
-    private productsRepository: Repository<Product>,
-    @InjectRepository(Supply)
-    private suppliesRepository: Repository<Supply>,
+    private productsRepository: Repository<Product>
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
@@ -25,13 +22,15 @@ export class ProductsService {
   findAll(): Promise<Product[]> {
     return this.productsRepository.find({
       relations: {
-        supplies: true
+        supplies: true,
+        categories: true,
+        barcito: true
       }
     });
   }
 
   async findById(id: number): Promise<Product> {
-    const product = await this.productsRepository.findOne({ where: { id } });
+    const product = await this.productsRepository.findOne({ where: { id }, relations: { supplies: true, categories: true, barcito: true } });
     if (!product) throw new NotFoundException('Product not found');
     return product;
   }
@@ -45,8 +44,8 @@ export class ProductsService {
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
-    await this.productsRepository.update(id, updateProductDto);
-    const updatedProduct = this.findById(id);
+    await this.productsRepository.save({...updateProductDto, id});
+    const updatedProduct = await this.findById(id);
     return updatedProduct;
   }
 
