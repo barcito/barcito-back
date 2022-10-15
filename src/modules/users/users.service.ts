@@ -18,8 +18,8 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     createUserDto = {
       ...createUserDto,
-      password: await argon2.hash(createUserDto.password)
-    }
+      password: await argon2.hash(createUserDto.password),
+    };
     const createdUser = this.usersRepository.create(createUserDto);
     await this.usersRepository.save(createdUser);
     return createdUser;
@@ -28,13 +28,20 @@ export class UsersService {
   findAll(): Promise<User[]> {
     return this.usersRepository.find({
       relations: {
-        applicationDone: true
-      }
+        applicationDone: true,
+        academicUnit: true,
+      },
     });
   }
 
   async findById(id: number): Promise<User> {
-    const user = await this.usersRepository.findOne({ where: { id } });
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      relations: {
+        applicationDone: true,
+        academicUnit: true,
+      },
+    });
     if (!user) throw new NotFoundException('User not found');
     return user;
   }
@@ -45,11 +52,11 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    if(updateUserDto.password)
+    if (updateUserDto.password)
       updateUserDto = {
         ...updateUserDto,
-        password: await argon2.hash(updateUserDto.password)
-    }
+        password: await argon2.hash(updateUserDto.password),
+      };
     await this.usersRepository.update(id, updateUserDto);
     const updatedUser = await this.findById(id);
     return updatedUser;
@@ -60,19 +67,21 @@ export class UsersService {
     if (!deleteResponse.affected) throw new NotFoundException('User not found');
   }
 
-  async generateApplication(id: number, idApplication: Application){
+  async generateApplication(id: number, idApplication: Application) {
     const user = await this.findById(id);
-    if(!user){
+    if (!user) {
       throw new NotFoundException('User not found');
     }
     return await this.update(id, { applicationDone: idApplication });
   }
 
-  async manageApplication(id: number, application: Application){
+  async manageApplication(id: number, application: Application) {
     const user = await this.findById(id);
-    if(!user){
+    if (!user) {
       throw new NotFoundException('User not found');
     }
-    return await this.update(id, { applicationsValidated: [...user.applicationsValidated, application] });
+    return await this.update(id, {
+      applicationsValidated: [...user.applicationsValidated, application],
+    });
   }
 }
