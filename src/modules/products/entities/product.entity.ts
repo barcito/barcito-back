@@ -4,11 +4,13 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { Supply } from 'modules/supplies/entities/supply.entity';
 import { Category } from 'modules/categories/entities/category.entity';
+import { Receipt } from 'modules/receipts/entities/receipt.entity';
 
 @Entity()
 export class Product {
@@ -74,6 +76,10 @@ export class Product {
     },
   })
   supplies: Supply[];
+
+  //Receipts relationship
+  @OneToMany(() => Receipt, (receipt: Receipt) => receipt.product)
+  receipts: Receipt[]
 
   //Barcito relationship
   @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.products, {nullable: true})
