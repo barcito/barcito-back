@@ -8,6 +8,7 @@ import { FilesModule } from 'files/files.module';
 import { ApplicationsModule } from 'modules/applications/applications.module';
 import { ProductsModule } from './modules/products/products.module';
 import { SuppliesModule } from './modules/supplies/supplies.module';
+import { CategoriesModule } from './modules/categories/categories.module';
 import { AcademicUnitsModule } from './modules/academic-units/academic-units.module';
 
 @Module({
@@ -21,6 +22,7 @@ import { AcademicUnitsModule } from './modules/academic-units/academic-units.mod
     ApplicationsModule,
     ProductsModule,
     SuppliesModule,
+    CategoriesModule,
     AcademicUnitsModule,
   ],
 })

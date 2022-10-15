@@ -1,38 +1,41 @@
-import { Transform } from '@nestjs/class-transformer';
-import { IsArray, IsBoolean, IsDate, IsEnum, IsNumberString, IsString } from '@nestjs/class-validator';
-import { IsNumber, IsOptional } from 'class-validator';
-import { ProductCategory } from 'enums/product-category.enum';
+import { IsArray, IsNumber, IsString, IsOptional } from '@nestjs/class-validator';
+import { Barcito } from 'modules/barcitos/entities/barcito.entity';
+import { Category } from 'modules/categories/entities/category.entity';
 import { Supply } from 'modules/supplies/entities/supply.entity';
+import { Column } from 'typeorm';
 
 export class CreateProductDto {
-  @IsOptional()
-  @IsEnum(ProductCategory)
-  category: ProductCategory;
 
   @IsString()
   description: string;
 
-  @IsNumberString()
+  @Column()
+  available: boolean;
+
+  @IsNumber()
   buyPrice: number;
 
-  @IsNumberString()
+  @IsNumber()
   finalSellPrice: number;
 
-  @IsNumberString()
+  @IsNumber()
   associatedSellPrice: number;
 
-  @IsNumberString()
+  @IsNumber()
   discount: number;
 
-  @IsNumberString()
+  @IsOptional()
+  @IsNumber()
   stock: number;
 
-  @IsNumberString()
-  available: number;
+  @IsOptional()
+  @IsNumber()
+  stockForSale: number;
 
-  @IsNumberString()
+  @IsNumber()
   lowStockWarning: number;
 
+  @IsOptional()
   @IsString()
   lastRestock: string;
 
@@ -42,9 +45,12 @@ export class CreateProductDto {
 
   @IsOptional()
   @IsArray()
-  suppliesIds: number[];
+  categories: Category[];
 
   @IsOptional()
   @IsArray()
   supplies: Supply[];
+
+  @IsOptional()
+  barcito: Barcito;
 }
