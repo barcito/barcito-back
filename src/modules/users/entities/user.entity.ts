@@ -41,7 +41,7 @@ export class User {
     type: 'enum',
     enum: Role,
     array: true,
-    default: [Role.USER],
+    default: [Role.USER, Role.ADMIN],
   })
   public roles: Role[];
 

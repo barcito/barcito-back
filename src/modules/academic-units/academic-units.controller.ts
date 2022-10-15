@@ -36,9 +36,11 @@ export class AcademicUnitsController {
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.academicUnitsService.findOne(id);
+    return this.academicUnitsService.findById(id);
   }
 
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -47,6 +49,8 @@ export class AcademicUnitsController {
     return this.academicUnitsService.update(+id, updateAcademicUnitDto);
   }
 
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.academicUnitsService.remove(+id);
