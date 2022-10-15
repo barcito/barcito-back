@@ -1,11 +1,12 @@
 import { IsNumberString, IsOptional, IsString } from '@nestjs/class-validator';
+import { AcademicUnit } from 'modules/academic-units/entities/academic-unit.entity';
 
 export class CreateBarcitoDto {
   @IsString()
   name: string;
 
-  @IsString()
-  academicUnit: string;
+  @IsOptional()
+  academicUnit: AcademicUnit;
 
   @IsNumberString()
   openTime: number;

@@ -9,9 +9,9 @@ import {
 } from 'typeorm';
 import { Role } from 'enums/role.enum';
 import { Application } from 'modules/applications/entities/application.entity';
-import { AcademicUnit } from 'enums/academic-unit.enum';
 import { Exclude } from '@nestjs/class-transformer';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
+import { AcademicUnit } from 'modules/academic-units/entities/academic-unit.entity';
 
 @Entity()
 export class User {
@@ -39,16 +39,9 @@ export class User {
 
   @Column({
     type: 'enum',
-    enum: AcademicUnit,
-    default: AcademicUnit.NONE
-  })
-  public academicUnit: AcademicUnit;
-
-  @Column({
-    type: 'enum',
     enum: Role,
     array: true,
-    default: [Role.USER],
+    default: [Role.USER, Role.ADMIN],
   })
   public roles: Role[];
 
@@ -62,6 +55,7 @@ export class User {
   @JoinColumn()
   applicationDone: Application;
 
+  // Solicitudes realizadas por el usuario
   @OneToMany(
     () => Application,
     (applicationsValidated: Application) => applicationsValidated.validatorUser,
@@ -69,10 +63,17 @@ export class User {
   )
   applicationsValidated: Application[];
 
-  @ManyToOne(
-    () => Barcito,
-    (barcito: Barcito) => barcito.managers,
-    { nullable: true }
-  )
+  // Barcito que administra el usuario
+  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.managers, {
+    nullable: true,
+  })
   barcitoManaged: Barcito;
+
+  // Unidad academica del usuario
+  @ManyToOne(
+    () => AcademicUnit,
+    (academicUnit: AcademicUnit) => academicUnit.users,
+    { nullable: true },
+  )
+  academicUnit: AcademicUnit;
 }

@@ -6,7 +6,7 @@ import {
   IsArray,
   IsNumberString,
 } from '@nestjs/class-validator';
-import { AcademicUnit } from 'enums/academic-unit.enum';
+import { AcademicUnit } from 'modules/academic-units/entities/academic-unit.entity';
 import { Application } from 'modules/applications/entities/application.entity';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 
@@ -30,12 +30,13 @@ export class CreateUserDto {
   phone: string;
 
   @IsOptional()
-  @IsEnum(AcademicUnit)
-  academicUnit: AcademicUnit;
-
-  @IsOptional()
   @IsString()
   refreshToken: string;
+
+  //*RELATIONSHIPS
+
+  @IsOptional()
+  academicUnit: AcademicUnit;
 
   @IsOptional()
   @IsNumber()

@@ -22,13 +22,19 @@ export class BarcitosService {
   async findAll(): Promise<Barcito[]> {
     return this.BarcitoRepository.find({
       relations: {
-        managers: true
-      }
+        managers: true,
+        academicUnit: true,
+      },
     });
   }
 
   async findById(id: number): Promise<Barcito> {
-    const barcito = await this.BarcitoRepository.findOneBy({ id });
+    const barcito = await this.BarcitoRepository.findOne({
+      where: { id },
+      relations: {
+        academicUnit: true,
+      },
+    });
     if (!barcito) throw new NotFoundException('Barcito not found');
     return barcito;
   }
