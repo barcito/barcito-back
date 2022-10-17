@@ -4,6 +4,10 @@ import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { User } from 'modules/users/entities/user.entity';
 
 export class CreateAcademicUnitDto {
+
+  @IsString()
+  shortName: string;
+
   @IsString()
   description: string;
 

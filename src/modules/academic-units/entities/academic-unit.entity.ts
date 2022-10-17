@@ -8,6 +8,9 @@ export class AcademicUnit {
   id: number;
 
   @Column()
+  shortName: string;
+
+  @Column()
   description: string;
 
   @OneToMany(() => Barcito, (barcitos: Barcito) => barcitos.academicUnit, {

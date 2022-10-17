@@ -15,6 +15,7 @@ import { Role } from 'enums/role.enum';
 import { AcademicUnitsService } from './academic-units.service';
 import { CreateAcademicUnitDto } from './dto/create-academic-unit.dto';
 import { UpdateAcademicUnitDto } from './dto/update-academic-unit.dto';
+import { Public } from 'common/decorators/public.decorator';
 
 @Controller('academic-units')
 export class AcademicUnitsController {
@@ -27,8 +28,7 @@ export class AcademicUnitsController {
     return this.academicUnitsService.create(createAcademicUnitDto);
   }
 
-  @Roles(Role.ADMIN)
-  @UseGuards(RolesGuard)
+  @Public()
   @Get()
   findAll() {
     return this.academicUnitsService.findAll();
