@@ -17,6 +17,9 @@ export class Supply {
   @Column()
   description: string;
 
+  @Column()
+  available: boolean;
+
   @Column({ type: 'real' })
   buyPrice: number;
 
@@ -26,8 +29,8 @@ export class Supply {
   @Column()
   lowStockWarning: number;
 
-  @Column({ type: 'real' })
-  lastRestock: number;
+  @Column({ type: 'date', nullable: true })
+  lastRestock: string;
 
   //Barcito relationship
   @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.products)

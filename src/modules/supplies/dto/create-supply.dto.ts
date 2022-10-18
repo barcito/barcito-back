@@ -1,10 +1,13 @@
-import { IsNumberString, IsString, IsArray } from '@nestjs/class-validator';
+import { IsNumberString, IsString, IsArray, IsBoolean } from '@nestjs/class-validator';
 import { IsOptional } from 'class-validator';
 import { Product } from 'modules/products/entities/product.entity';
 
 export class CreateSupplyDto {
   @IsString()
   description: string;
+
+  @IsBoolean()
+  available: boolean;
 
   @IsNumberString()
   buyPrice: number;
@@ -15,8 +18,8 @@ export class CreateSupplyDto {
   @IsNumberString()
   lowStockWarning: number;
 
-  @IsNumberString()
-  lastRestock: number;
+  @IsString()
+  lastRestock: string;
 
   @IsOptional()
   @IsArray()
