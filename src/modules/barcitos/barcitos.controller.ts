@@ -29,7 +29,7 @@ export class BarcitosController {
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
   @Post()
-  @UseInterceptors(
+  /* @UseInterceptors(
     FileInterceptor('barcito_img', {
       fileFilter: barcitoFileFilter,
       limits: { fileSize: 10000000 },
@@ -38,15 +38,15 @@ export class BarcitosController {
         filename: barcitoFileNamer,
       }),
     }),
-  )
+  ) */
   async create(
-    @UploadedFile() file: Express.Multer.File,
+    /* @UploadedFile() file: Express.Multer.File, */
     @Body() createBarcitoDto: CreateBarcitoDto,
   ) {
-    if (!file)
+    /* if (!file)
       throw new BadRequestException('Make sure image is of a valid type');
 
-    createBarcitoDto.imagePath = `${process.env.HOST_API}files/barcitos/${file.filename}`;
+    createBarcitoDto.imagePath = `${process.env.HOST_API}files/barcitos/${file.filename}`; */
     const barcito = await this.barcitosService.create(createBarcitoDto);
 
     return barcito;
@@ -76,5 +76,27 @@ export class BarcitosController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.barcitosService.remove(id);
+  }
+
+  @Patch('/image-update/:id')
+  @UseInterceptors(
+    FileInterceptor('barcito_img', {
+      fileFilter: barcitoFileFilter,
+      limits: { fileSize: 10000000 },
+      storage: diskStorage({
+        destination: '../files-storage/barcitos',
+        filename: barcitoFileNamer,
+      }),
+    }),
+  )
+  imageUpdate(
+    @Param('id', ParseIntPipe) id: number,
+    @UploadedFile() file: Express.Multer.File
+  ){
+    if (!file)
+      throw new BadRequestException('Make sure image is of a valid type');
+
+    const updateBarcitoDto: UpdateBarcitoDto = {imagePath: `${process.env.HOST_API}files/barcitos/${file.filename}`};
+    return this.barcitosService.update(id, updateBarcitoDto);
   }
 }
