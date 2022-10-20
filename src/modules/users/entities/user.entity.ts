@@ -12,6 +12,7 @@ import { Application } from 'modules/applications/entities/application.entity';
 import { Exclude } from '@nestjs/class-transformer';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { AcademicUnit } from 'modules/academic-units/entities/academic-unit.entity';
+import { Order } from 'modules/orders/entities/order.entity';
 
 @Entity()
 export class User {
@@ -76,4 +77,8 @@ export class User {
     { nullable: true },
   )
   academicUnit: AcademicUnit;
+
+  //Pedidos del usuario
+  @OneToMany(() => Order, (order: Order) => order.user)
+  orders: Order[];
 }

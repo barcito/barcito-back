@@ -1,4 +1,5 @@
 import { AcademicUnit } from 'modules/academic-units/entities/academic-unit.entity';
+import { Order } from 'modules/orders/entities/order.entity';
 import { Product } from 'modules/products/entities/product.entity';
 import { Supply } from 'modules/supplies/entities/supply.entity';
 import { User } from 'modules/users/entities/user.entity';
@@ -48,10 +49,15 @@ export class Barcito {
   })
   managers: User[];
 
+  //Unidad academica del barcito
   @ManyToOne(
     () => AcademicUnit,
     (academicUnit: AcademicUnit) => academicUnit.barcitos,
     { nullable: true },
   )
   academicUnit: AcademicUnit;
+
+  //Pedidos realizados al barcito
+  @OneToMany(() => Order, (order: Order) => order.barcito)
+  orders: Order[];
 }

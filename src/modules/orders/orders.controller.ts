@@ -1,7 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  UseGuards,
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { Roles } from 'common/decorators/roles.decorator';
+import { Role } from 'enums/role.enum';
+import { RolesGuard } from 'common/guards/roles.guard';
 
 @Controller('orders')
 export class OrdersController {
@@ -18,17 +31,22 @@ export class OrdersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ordersService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.ordersService.findById(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.ordersService.update(+id, updateOrderDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateOrderDto: UpdateOrderDto,
+  ) {
+    return this.ordersService.update(id, updateOrderDto);
   }
 
+  @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
+  @UseGuards(RolesGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ordersService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.ordersService.remove(id);
   }
 }

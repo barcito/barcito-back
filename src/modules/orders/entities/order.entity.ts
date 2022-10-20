@@ -1,5 +1,7 @@
 import { OrderStatus } from 'enums/order-status.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Barcito } from 'modules/barcitos/entities/barcito.entity';
+import { User } from 'modules/users/entities/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Order {
@@ -18,4 +20,12 @@ export class Order {
 
   @Column({ type: 'date' })
   date: string;
+
+  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.orders, {
+    nullable: true,
+  })
+  barcito: Barcito;
+
+  @ManyToOne(() => User, (user: User) => user.orders, { nullable: true })
+  user: User;
 }
