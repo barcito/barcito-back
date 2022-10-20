@@ -1,7 +1,14 @@
 import { OrderStatus } from 'enums/order-status.enum';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
+import { OrderedProduct } from 'modules/ordered-products/entities/ordered-product.entity';
 import { User } from 'modules/users/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Order {
@@ -28,4 +35,11 @@ export class Order {
 
   @ManyToOne(() => User, (user: User) => user.orders, { nullable: true })
   user: User;
+
+  @OneToMany(
+    () => OrderedProduct,
+    (orderedProducts: OrderedProduct) => orderedProducts.order,
+    { nullable: true },
+  )
+  products: OrderedProduct[];
 }

@@ -12,6 +12,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
 import { AcademicUnitsModule } from './modules/academic-units/academic-units.module';
 import { ReceiptsModule } from './modules/receipts/receipts.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { OrderedProductsModule } from './modules/ordered-products/ordered-products.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { OrdersModule } from './modules/orders/orders.module';
     AcademicUnitsModule,
     ReceiptsModule,
     OrdersModule,
+    OrderedProductsModule,
   ],
 })
 export class AppModule {}
