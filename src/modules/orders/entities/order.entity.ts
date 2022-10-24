@@ -28,6 +28,9 @@ export class Order {
   @Column({ type: 'date' })
   date: string;
 
+  @Column()
+  amount: number;
+
   @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.orders, {
     nullable: true,
   })
@@ -39,7 +42,7 @@ export class Order {
   @OneToMany(
     () => OrderedProduct,
     (orderedProducts: OrderedProduct) => orderedProducts.order,
-    { nullable: true },
+    { cascade: true },
   )
   products: OrderedProduct[];
 }

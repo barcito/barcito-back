@@ -8,13 +8,7 @@ export class OrderedProduct {
   public id: number;
 
   @Column()
-  public orderId: number;
-
-  @Column()
-  public productId: number;
-
-  @Column()
-  amount: number;
+  public quantity: number;
 
   @ManyToOne(() => Order, (order) => order.products)
   public order: Order;
