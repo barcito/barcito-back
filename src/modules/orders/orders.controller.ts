@@ -35,6 +35,11 @@ export class OrdersController {
     return this.ordersService.findById(id);
   }
 
+  @Get('code/:code')
+  findByCode(@Param('code') code: string) {
+    return this.ordersService.findByCode(code);
+  }
+
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,

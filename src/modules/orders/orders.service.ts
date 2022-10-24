@@ -39,6 +39,18 @@ export class OrdersService {
     return order;
   }
 
+  async findByCode(code: string): Promise<Order> {
+    const order = await this.OrderRepository.findOne({
+      where: { code },
+      relations: {
+        barcito: true,
+        user: true,
+      },
+    });
+    if (!order) throw new NotFoundException('Order not found');
+    return order;
+  }
+
   async update(id: number, updateOrderDto: UpdateOrderDto): Promise<Order> {
     await this.OrderRepository.update(id, updateOrderDto);
     const updatedOrder = await this.findById(id);
