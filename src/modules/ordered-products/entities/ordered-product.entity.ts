@@ -10,6 +10,9 @@ export class OrderedProduct {
   @Column()
   public quantity: number;
 
+  @Column()
+  public lockedPrice: number;
+
   @ManyToOne(() => Order, (order) => order.products)
   public order: Order;
 

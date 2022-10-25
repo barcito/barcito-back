@@ -13,6 +13,7 @@ export class OrderedProductSubscriber implements EntitySubscriberInterface<Order
         const productRepository = event.manager.getRepository(Product);
         const product = await productRepository.findOne({ where: event.entity.product});
         product.stock -= event.entity.quantity;
+        event.entity.lockedPrice = product.finalSellPrice;
         await productRepository.save(product);
     }
 }
