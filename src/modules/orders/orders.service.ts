@@ -23,6 +23,7 @@ export class OrdersService {
       relations: {
         barcito: true,
         user: true,
+        products: true
       },
     });
   }
@@ -33,6 +34,7 @@ export class OrdersService {
       relations: {
         barcito: true,
         user: true,
+        products: true
       },
     });
     if (!order) throw new NotFoundException('Order not found');
@@ -45,6 +47,9 @@ export class OrdersService {
       relations: {
         barcito: true,
         user: true,
+        products: {
+          product: true
+        }
       },
     });
     if (!order) throw new NotFoundException('Order not found');
