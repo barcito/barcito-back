@@ -27,7 +27,7 @@ export class Barcito {
   @Column()
   location: string;
 
-  @Column()
+  @Column({ nullable: true })
   imagePath: string;
 
   //Productos del barcito

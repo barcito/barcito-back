@@ -33,12 +33,12 @@ export class FilesService {
   getProductImage(imageName: string) {
     const path = join(
       __dirname,
-      '../../../files-storage/barcitos',
+      '../../../files-storage/products',
       `${imageName}`,
     );
 
     if (!existsSync(path))
-      throw new BadRequestException('Barcito image not found');
+      throw new BadRequestException('Product image not found');
 
     return path;
   }

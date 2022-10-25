@@ -82,4 +82,26 @@ export class ProductsController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.remove(id);
   }
+
+  @Patch('/image-update/:id')
+  @UseInterceptors(
+    FileInterceptor('product_img', {
+      fileFilter: productFileFilter,
+      limits: { fileSize: 10000000 },
+      storage: diskStorage({
+        destination: '../files-storage/products',
+        filename: productFileNamer,
+      }),
+    }),
+  )
+  imageUpdate(
+    @Param('id', ParseIntPipe) id: number,
+    @UploadedFile() file: Express.Multer.File
+  ){
+    if (!file)
+      throw new BadRequestException('Make sure image is of a valid type');
+
+    const updateProductDto: UpdateProductDto = {imagePath: `${process.env.HOST_API}files/products/${file.filename}`};
+    return this.productsService.update(id, updateProductDto);
+  }
 }
