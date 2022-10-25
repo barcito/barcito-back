@@ -11,10 +11,10 @@ import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { Supply } from 'modules/supplies/entities/supply.entity';
 import { Category } from 'modules/categories/entities/category.entity';
 import { Receipt } from 'modules/receipts/entities/receipt.entity';
+import { OrderedProduct } from 'modules/ordered-products/entities/ordered-product.entity';
 
 @Entity()
 export class Product {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -36,36 +36,40 @@ export class Product {
   @Column()
   discount: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   stock: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   stockForSale: number;
 
   @Column()
   lowStockWarning: number;
 
-  @Column({type: 'date', nullable: true})
+  @Column({ type: 'date', nullable: true })
   lastRestock: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   imagePath: string;
 
   //Category relationship
-  @ManyToMany(() => Category, (category: Category) => category.products, {nullable: true})
+  @ManyToMany(() => Category, (category: Category) => category.products, {
+    nullable: true,
+  })
   @JoinTable({
     name: 'product_category',
     joinColumn: {
-      name: 'product_id'
+      name: 'product_id',
     },
     inverseJoinColumn: {
-      name: 'category_id'
-    }
+      name: 'category_id',
+    },
   })
   categories: Category[];
 
   //Supply relationship
-  @ManyToMany(() => Supply, (supply: Supply) => supply.products, {nullable: true})
+  @ManyToMany(() => Supply, (supply: Supply) => supply.products, {
+    nullable: true,
+  })
   @JoinTable({
     name: 'product_supplies',
     joinColumn: {
@@ -79,9 +83,18 @@ export class Product {
 
   //Receipts relationship
   @OneToMany(() => Receipt, (receipt: Receipt) => receipt.product)
-  receipts: Receipt[]
+  receipts: Receipt[];
 
   //Barcito relationship
-  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.products, {nullable: true})
+  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.products, {
+    nullable: true,
+  })
   barcito: Barcito;
+
+  //Ordered products relationship
+  @OneToMany(
+    () => OrderedProduct,
+    (orderedProducts: OrderedProduct) => orderedProducts.product,
+  )
+  orders: OrderedProduct[];
 }

@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'modules/users/entities/user.entity';
 import { Application } from 'modules/applications/entities/application.entity';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
+import { OrderedProductSubscriber } from 'modules/ordered-products/subscribers/ordered-product.subscriber';
+import { OrderSubscriber } from 'modules/orders/subscribers/order.subscriber';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { Barcito } from 'modules/barcitos/entities/barcito.entity';
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DATABASE'),
         entities: [User, Application, Barcito],
+        subscribers: [OrderSubscriber, OrderedProductSubscriber],
         synchronize: true,
         autoLoadEntities: true, //quit on prod
       }),
