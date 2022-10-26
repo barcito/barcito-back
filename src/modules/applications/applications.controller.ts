@@ -69,14 +69,14 @@ export class ApplicationsController {
     return application;
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(RolesGuard)
   @Get()
   findAll() {
     return this.applicationsService.findAll();
   }
 
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(RolesGuard)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
