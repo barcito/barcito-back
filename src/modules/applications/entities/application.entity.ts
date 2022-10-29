@@ -4,6 +4,9 @@ import {
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn
 } from 'typeorm';
 import { User } from 'modules/users/entities/user.entity';
 import { ApplicationStatus } from 'enums/application-status.enum';
@@ -31,4 +34,13 @@ export class Application {
     (validatorUser: User) => validatorUser.applicationsValidated,
   )
   validatorUser: User;
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: string;
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updatedAt: string;
+
+  @DeleteDateColumn({ type: 'timestamptz' })
+  deletedAt: string;
 }

@@ -2,16 +2,22 @@ import {
   Column,
   Entity,
   JoinTable,
+  OneToOne,
   ManyToMany,
   ManyToOne,
   OneToMany,
+  JoinColumn,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn
 } from 'typeorm';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { Supply } from 'modules/supplies/entities/supply.entity';
 import { Category } from 'modules/categories/entities/category.entity';
 import { Receipt } from 'modules/receipts/entities/receipt.entity';
 import { OrderedProduct } from 'modules/ordered-products/entities/ordered-product.entity';
+import { Stock } from 'modules/stock/entities/stock.entity';
 
 @Entity()
 export class Product {
@@ -24,61 +30,33 @@ export class Product {
   @Column()
   available: boolean;
 
-  @Column()
-  buyPrice: number;
-
-  @Column()
+  @Column({ type: 'numeric', precision: 8 , scale: 2 })
   finalSellPrice: number;
 
-  @Column()
+  @Column({ type: 'numeric', precision: 8 , scale: 2 })
   associatedSellPrice: number;
 
-  @Column()
+  @Column({ type: 'numeric', precision: 8 , scale: 2 })
   discount: number;
-
-  @Column({ nullable: true })
-  stock: number;
 
   @Column({ nullable: true })
   stockForSale: number;
 
-  @Column()
-  lowStockWarning: number;
-
-  @Column({ type: 'date', nullable: true })
-  lastRestock: string;
-
   @Column({ nullable: true })
   imagePath: string;
 
+  @OneToOne(() => Stock, (stock: Stock) => stock.product, { cascade: true })
+  @JoinColumn()
+  stock: Stock;
+
   //Category relationship
-  @ManyToMany(() => Category, (category: Category) => category.products, {
-    nullable: true,
-  })
-  @JoinTable({
-    name: 'product_category',
-    joinColumn: {
-      name: 'product_id',
-    },
-    inverseJoinColumn: {
-      name: 'category_id',
-    },
-  })
+  @ManyToMany(() => Category, (category: Category) => category.products)
+  @JoinTable()
   categories: Category[];
 
   //Supply relationship
-  @ManyToMany(() => Supply, (supply: Supply) => supply.products, {
-    nullable: true,
-  })
-  @JoinTable({
-    name: 'product_supplies',
-    joinColumn: {
-      name: 'product_id',
-    },
-    inverseJoinColumn: {
-      name: 'supply_id',
-    },
-  })
+  @ManyToMany(() => Supply, (supply: Supply) => supply.products)
+  @JoinTable()
   supplies: Supply[];
 
   //Receipts relationship
@@ -86,15 +64,19 @@ export class Product {
   receipts: Receipt[];
 
   //Barcito relationship
-  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.products, {
-    nullable: true,
-  })
+  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.products)
   barcito: Barcito;
 
   //Ordered products relationship
-  @OneToMany(
-    () => OrderedProduct,
-    (orderedProducts: OrderedProduct) => orderedProducts.product,
-  )
+  @OneToMany(() => OrderedProduct, (orderedProducts: OrderedProduct) => orderedProducts.product)
   orders: OrderedProduct[];
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: string;
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updatedAt: string;
+
+  @DeleteDateColumn({ type: 'timestamptz' })
+  deletedAt: string;
 }

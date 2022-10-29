@@ -12,10 +12,8 @@ export class CreateApplicationDto {
   status: ApplicationStatus;
 
   @IsOptional()
-  @IsNumber()
   applicantUser: User;
 
   @IsOptional()
-  @IsNumber()
   validatorUser: User;
 }

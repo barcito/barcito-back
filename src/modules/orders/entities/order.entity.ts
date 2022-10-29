@@ -8,6 +8,9 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn
 } from 'typeorm';
 
 @Entity()
@@ -25,18 +28,13 @@ export class Order {
   @Column()
   code: string;
 
-  @Column({ type: 'date' })
-  date: string;
-
-  @Column()
+  @Column({ type: 'numeric', precision: 8 , scale: 2 })
   amount: number;
 
-  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.orders, {
-    nullable: true,
-  })
+  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.orders)
   barcito: Barcito;
 
-  @ManyToOne(() => User, (user: User) => user.orders, { nullable: true })
+  @ManyToOne(() => User, (user: User) => user.orders)
   user: User;
 
   @OneToMany(
@@ -45,4 +43,13 @@ export class Order {
     { cascade: true },
   )
   products: OrderedProduct[];
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: string;
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  updatedAt: string;
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  deletedAt: string;
 }
