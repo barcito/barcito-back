@@ -6,6 +6,10 @@ import { Application } from 'modules/applications/entities/application.entity';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { OrderedProductSubscriber } from 'modules/ordered-products/subscribers/ordered-product.subscriber';
 import { OrderSubscriber } from 'modules/orders/subscribers/order.subscriber';
+import { Product } from 'modules/products/entities/product.entity';
+import { Supply } from 'modules/supplies/entities/supply.entity';
+import { Stock } from 'modules/stock/entities/stock.entity';
+import { ProductsSubscriber } from 'modules/products/subscribers/products.subscriber';
 
 @Module({
   imports: [
@@ -19,8 +23,8 @@ import { OrderSubscriber } from 'modules/orders/subscribers/order.subscriber';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DATABASE'),
-        entities: [User, Application, Barcito],
-        subscribers: [OrderSubscriber, OrderedProductSubscriber],
+        entities: [],
+        subscribers: [OrderSubscriber, OrderedProductSubscriber, ProductsSubscriber],
         synchronize: true,
         autoLoadEntities: true, //quit on prod
       }),

@@ -2,7 +2,6 @@ import { IsNumber, IsString } from "@nestjs/class-validator";
 import { Product } from "modules/products/entities/product.entity";
 
 export class CreateReceiptDto {
-
     @IsString()
     date: string;
 

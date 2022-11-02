@@ -8,11 +8,11 @@ export class CreateBarcitoDto {
   @IsOptional()
   academicUnit: AcademicUnit;
 
-  @IsNumberString()
-  openTime: number;
+  @IsString()
+  openTime: string;
 
-  @IsNumberString()
-  closeTime: number;
+  @IsString()
+  closeTime: string;
 
   @IsString()
   location: string;

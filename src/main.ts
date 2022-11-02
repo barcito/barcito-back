@@ -17,7 +17,7 @@ async function bootstrap() {
     credentials: true
   });
   app.use(cookieParser());
-  app.useGlobalFilters(new HttpExceptionFilter());
+  /* app.useGlobalFilters(new HttpExceptionFilter()); */
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidateInputPipe());
   app.useGlobalGuards(new AccessTokenGuard(reflector));

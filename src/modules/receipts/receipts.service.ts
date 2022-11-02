@@ -19,8 +19,8 @@ export class ReceiptsService {
     const createdReceipt = this.receiptsRepository.create(createReceiptDto);
     const savedReceipt = await this.receiptsRepository.save(createdReceipt);
     const product = await this.productsService.findById(savedReceipt.product.id);
-    const updStock = { stock: product.stock + savedReceipt.quantity, buyPrice: savedReceipt.amount / savedReceipt.quantity };
-    this.productsService.update(product.id, updStock);
+    /* const updStock = { stock: product.stock + savedReceipt.quantity, buyPrice: savedReceipt.amount / savedReceipt.quantity }; */
+    /* this.productsService.update(product.id, updStock); */
     return createdReceipt;
   }
 

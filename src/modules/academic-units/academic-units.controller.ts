@@ -21,7 +21,7 @@ import { Public } from 'common/decorators/public.decorator';
 export class AcademicUnitsController {
   constructor(private readonly academicUnitsService: AcademicUnitsService) {}
 
-  @Roles(Role.ADMIN)
+  @Public()
   @UseGuards(RolesGuard)
   @Post()
   create(@Body() createAcademicUnitDto: CreateAcademicUnitDto) {

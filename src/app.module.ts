@@ -13,6 +13,8 @@ import { AcademicUnitsModule } from './modules/academic-units/academic-units.mod
 import { ReceiptsModule } from './modules/receipts/receipts.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { OrderedProductsModule } from './modules/ordered-products/ordered-products.module';
+import { StockModule } from './modules/stock/stock.module';
+import { ProductToSupplyModule } from './modules/product-to-supply/product-to-supply.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { OrderedProductsModule } from './modules/ordered-products/ordered-produc
     ReceiptsModule,
     OrdersModule,
     OrderedProductsModule,
+    StockModule,
+    ProductToSupplyModule,
   ],
 })
 export class AppModule {}

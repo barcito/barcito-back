@@ -3,11 +3,18 @@ import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import {
   Column,
   Entity,
-  JoinTable,
+  JoinColumn,
+  OneToOne,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  OneToMany
 } from 'typeorm';
+import { Stock } from 'modules/stock/entities/stock.entity';
+import { ProductToSupply } from 'modules/product-to-supply/entities/product-to-supply.entity';
 
 @Entity()
 export class Supply {
@@ -20,24 +27,24 @@ export class Supply {
   @Column()
   available: boolean;
 
-  @Column({ type: 'real' })
-  buyPrice: number;
-
-  @Column()
-  stock: number;
-
-  @Column()
-  lowStockWarning: number;
-
-  @Column({ type: 'date', nullable: true })
-  lastRestock: string;
+  @OneToOne(() => Stock, (stock: Stock) => stock.supply, { cascade: true })
+  @JoinColumn()
+  stock: Stock;
 
   //Barcito relationship
   @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.products)
   barcito: Barcito;
 
   //Product relationship
-  @ManyToMany(() => Product, (product: Product) => product.supplies)
-  // @JoinTable()
-  products: Product[];
+  @OneToMany(() => ProductToSupply, (productToSupply: ProductToSupply) => productToSupply.supply)
+  productToSupplies: ProductToSupply[];
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: string;
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updatedAt: string;
+
+  @DeleteDateColumn({ type: 'timestamptz' })
+  deletedAt: string;
 }

@@ -9,11 +9,11 @@ export class OrderedProductSubscriber implements EntitySubscriberInterface<Order
         return OrderedProduct;
     }
 
-    async afterInsert(event: InsertEvent<OrderedProduct>): Promise<any> {
+    /* async afterInsert(event: InsertEvent<OrderedProduct>): Promise<any> {
         const productRepository = event.manager.getRepository(Product);
-        const product = await productRepository.findOne({ where: event.entity.product});
+        const product = await productRepository.findOne({ where: {id: event.entity.product.id}});
         product.stock -= event.entity.quantity;
         event.entity.lockedPrice = product.finalSellPrice;
         await productRepository.save(product);
-    }
+    } */
 }

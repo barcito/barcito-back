@@ -9,6 +9,9 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn
 } from 'typeorm';
 
 @Entity()
@@ -19,11 +22,11 @@ export class Barcito {
   @Column()
   name: string;
 
-  @Column()
-  openTime: number;
+  @Column({ type: 'time' })
+  openTime: string;
 
-  @Column()
-  closeTime: number;
+  @Column({ type: 'time' })
+  closeTime: string;
 
   @Column()
   location: string;
@@ -32,32 +35,34 @@ export class Barcito {
   imagePath: string;
 
   //Productos del barcito
-  @OneToMany(() => Product, (products: Product) => products.barcito, {
-    nullable: true,
-  })
+  @OneToMany(() => Product, (products: Product) => products.barcito)
   products: Product[];
 
   //Supplies del barcito
-  @OneToMany(() => Supply, (supply: Supply) => supply.barcito, {
-    nullable: true,
-  })
+  @OneToMany(() => Supply, (supply: Supply) => supply.barcito)
   supplies: Supply[];
 
   //Administradores del barcito
-  @OneToMany(() => User, (manager: User) => manager.barcitoManaged, {
-    nullable: true,
-  })
+  @OneToMany(() => User, (manager: User) => manager.barcitoManaged)
   managers: User[];
 
   //Unidad academica del barcito
   @ManyToOne(
     () => AcademicUnit,
-    (academicUnit: AcademicUnit) => academicUnit.barcitos,
-    { nullable: true },
+    (academicUnit: AcademicUnit) => academicUnit.barcitos
   )
   academicUnit: AcademicUnit;
 
   //Pedidos realizados al barcito
   @OneToMany(() => Order, (order: Order) => order.barcito)
   orders: Order[];
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: string;
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updatedAt: string;
+
+  @DeleteDateColumn({ type: 'timestamptz' })
+  deletedAt: string;
 }

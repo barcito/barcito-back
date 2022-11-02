@@ -1,5 +1,6 @@
-import { IsNumber, IsString, IsArray, IsBoolean, IsOptional } from '@nestjs/class-validator';
-import { Product } from 'modules/products/entities/product.entity';
+import { IsNumber, IsString, IsBoolean, IsOptional } from '@nestjs/class-validator';
+import { Barcito } from 'modules/barcitos/entities/barcito.entity';
+import { Stock } from 'modules/stock/entities/stock.entity';
 
 export class CreateSupplyDto {
   @IsString()
@@ -8,19 +9,8 @@ export class CreateSupplyDto {
   @IsBoolean()
   available: boolean;
 
-  @IsNumber()
-  buyPrice: number;
-
-  @IsNumber()
-  stock: number;
-
-  @IsNumber()
-  lowStockWarning: number;
-
-  @IsString()
-  lastRestock: string;
+  stock: Stock;
 
   @IsOptional()
-  @IsArray()
-  products: Product[];
+  barcito: Barcito;
 }

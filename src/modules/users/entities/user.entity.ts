@@ -6,10 +6,12 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn
 } from 'typeorm';
 import { Role } from 'enums/role.enum';
 import { Application } from 'modules/applications/entities/application.entity';
-import { Exclude } from '@nestjs/class-transformer';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { AcademicUnit } from 'modules/academic-units/entities/academic-unit.entity';
 import { Order } from 'modules/orders/entities/order.entity';
@@ -17,26 +19,25 @@ import { Order } from 'modules/orders/entities/order.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  public id: number;
+  id: number;
 
   @Column({ unique: true })
-  public email: string;
+  email: string;
 
   @Column()
-  @Exclude()
-  public password: string;
+  password: string;
 
   @Column()
-  public name: string;
+  name: string;
 
   @Column()
-  public surname: string;
+  surname: string;
 
   @Column({ unique: true })
-  public dni: string;
+  dni: string;
 
-  @Column()
-  public phone: string;
+  @Column({ unique: true })
+  phone: string;
 
   @Column({
     type: 'enum',
@@ -44,41 +45,38 @@ export class User {
     array: true,
     default: [Role.ADMIN],
   })
-  public roles: Role[];
+  roles: Role[];
 
-  @Column({
-    nullable: true,
-  })
-  public refreshToken: string;
+  @Column({ nullable: true })
+  refreshToken: string;
 
   //Solicitudes y certificados
-  @OneToOne(() => Application, { nullable: true })
+  @OneToOne(() => Application)
   @JoinColumn()
   applicationDone: Application;
 
   // Solicitudes realizadas por el usuario
-  @OneToMany(
-    () => Application,
-    (applicationsValidated: Application) => applicationsValidated.validatorUser,
-    { nullable: true },
-  )
+  @OneToMany(() => Application, (applicationsValidated: Application) => applicationsValidated.validatorUser)
   applicationsValidated: Application[];
 
   // Barcito que administra el usuario
-  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.managers, {
-    nullable: true,
-  })
+  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.managers)
   barcitoManaged: Barcito;
 
   // Unidad academica del usuario
-  @ManyToOne(
-    () => AcademicUnit,
-    (academicUnit: AcademicUnit) => academicUnit.users,
-    { nullable: true },
-  )
+  @ManyToOne(() => AcademicUnit, (academicUnit: AcademicUnit) => academicUnit.users)
   academicUnit: AcademicUnit;
 
   //Pedidos del usuario
   @OneToMany(() => Order, (order: Order) => order.user)
   orders: Order[];
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: string;
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updatedAt: string;
+
+  @DeleteDateColumn({ type: 'timestamptz' })
+  deletedAt: string;
 }

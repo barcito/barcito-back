@@ -1,6 +1,6 @@
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { User } from 'modules/users/entities/user.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 @Entity()
 export class AcademicUnit {
@@ -13,13 +13,18 @@ export class AcademicUnit {
   @Column()
   description: string;
 
-  @OneToMany(() => Barcito, (barcitos: Barcito) => barcitos.academicUnit, {
-    nullable: true,
-  })
+  @OneToMany(() => Barcito, (barcitos: Barcito) => barcitos.academicUnit)
   barcitos: Barcito[];
 
-  @OneToMany(() => User, (users: User) => users.academicUnit, {
-    nullable: true,
-  })
+  @OneToMany(() => User, (users: User) => users.academicUnit)
   users: User[];
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: string;
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updatedAt: string;
+
+  @DeleteDateColumn({ type: 'timestamptz' })
+  deletedAt: string;
 }
