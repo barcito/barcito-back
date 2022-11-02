@@ -20,11 +20,22 @@ export class SuppliesService {
   }
 
   findAll(): Promise<Supply[]> {
-    return this.suppliesRepository.find();
+    return this.suppliesRepository.find({
+      relations: {
+        stock: true,
+        barcito: true
+      }
+    });
   }
 
   async findById(id: number): Promise<Supply> {
-    const supply = await this.suppliesRepository.findOne({ where: { id } });
+    const supply = await this.suppliesRepository.findOne({
+      where: { id },
+      relations: {
+        stock: true,
+        barcito: true
+      }
+    });
     if (!supply) throw new NotFoundException('Supply not found');
     return supply;
   }
@@ -34,11 +45,15 @@ export class SuppliesService {
       where: {
         description: Like(`%${query}%`),
       },
+      relations: {
+        stock: true,
+        barcito: true
+      }
     });
   }
 
   async update(id: number, updateSupplyDto: UpdateSupplyDto) {
-    await this.suppliesRepository.update(id, updateSupplyDto);
+    await this.suppliesRepository.save({id, ...updateSupplyDto});
     const updatedSupply = this.findById(id);
     return updatedSupply;
   }

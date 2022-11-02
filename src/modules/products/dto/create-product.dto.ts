@@ -1,8 +1,8 @@
 import { IsArray, IsNumber, IsString, IsOptional, IsBoolean } from '@nestjs/class-validator';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { Category } from 'modules/categories/entities/category.entity';
+import { ProductToSupply } from 'modules/product-to-supply/entities/product-to-supply.entity';
 import { Stock } from 'modules/stock/entities/stock.entity';
-import { Supply } from 'modules/supplies/entities/supply.entity';
 
 export class CreateProductDto {
 
@@ -37,7 +37,7 @@ export class CreateProductDto {
 
   @IsOptional()
   @IsArray()
-  supplies: Supply[];
+  productToSupplies: ProductToSupply[];
 
   @IsOptional()
   barcito: Barcito;

@@ -10,9 +10,11 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn
+  DeleteDateColumn,
+  OneToMany
 } from 'typeorm';
 import { Stock } from 'modules/stock/entities/stock.entity';
+import { ProductToSupply } from 'modules/product-to-supply/entities/product-to-supply.entity';
 
 @Entity()
 export class Supply {
@@ -34,8 +36,8 @@ export class Supply {
   barcito: Barcito;
 
   //Product relationship
-  @ManyToMany(() => Product, (product: Product) => product.supplies)
-  products: Product[];
+  @OneToMany(() => ProductToSupply, (productToSupply: ProductToSupply) => productToSupply.supply)
+  productToSupplies: ProductToSupply[];
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: string;

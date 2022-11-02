@@ -10,7 +10,7 @@ export class Category {
     description: string;
 
     //Product relationship
-    @ManyToMany(() => Product, (product: Product) => product.supplies)
+    @ManyToMany(() => Product, (product: Product) => product.categories)
     products: Product[];
 
     @CreateDateColumn({ type: 'timestamptz' })

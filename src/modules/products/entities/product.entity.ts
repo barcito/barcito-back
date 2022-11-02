@@ -18,6 +18,8 @@ import { Category } from 'modules/categories/entities/category.entity';
 import { Receipt } from 'modules/receipts/entities/receipt.entity';
 import { OrderedProduct } from 'modules/ordered-products/entities/ordered-product.entity';
 import { Stock } from 'modules/stock/entities/stock.entity';
+import { ProductToSupply } from 'modules/product-to-supply/entities/product-to-supply.entity';
+
 
 @Entity()
 export class Product {
@@ -51,13 +53,12 @@ export class Product {
 
   //Category relationship
   @ManyToMany(() => Category, (category: Category) => category.products)
-  @JoinTable()
+  @JoinTable({ name: "product_to_category" })
   categories: Category[];
 
   //Supply relationship
-  @ManyToMany(() => Supply, (supply: Supply) => supply.products)
-  @JoinTable()
-  supplies: Supply[];
+  @OneToMany(() => ProductToSupply, (productToSupply: ProductToSupply) => productToSupply.product, {cascade: true, orphanedRowAction: 'delete'})
+  productToSupplies: ProductToSupply[];
 
   //Receipts relationship
   @OneToMany(() => Receipt, (receipt: Receipt) => receipt.product)
