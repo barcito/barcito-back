@@ -1,5 +1,5 @@
-import { Product } from "modules/products/entities/product.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
+import { ReceiptToStock } from "modules/receipt-to-stock/entities/receipt-to-stock.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
 
 @Entity()
 export class Receipt {
@@ -12,14 +12,14 @@ export class Receipt {
     @Column()
     ticket: number; //cambiar a archivo directamente
 
-    @Column()
-    quantity: number;
-
     @Column({ type: 'numeric', precision: 8 , scale: 2 })
     amount: number;
 
-    @ManyToOne(() => Product, (product: Product) => product.receipts)
-    product: Product;
+    @Column()
+    receiptPath: string;
+
+    @OneToMany(() => ReceiptToStock, (receiptToStock: ReceiptToStock) => receiptToStock.receipt)
+    receiptToStock: ReceiptToStock[];
 
     @CreateDateColumn({ type: 'timestamptz' })
     createdAt: string;

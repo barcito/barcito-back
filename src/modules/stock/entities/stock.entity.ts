@@ -1,4 +1,5 @@
 import { Product } from 'modules/products/entities/product.entity';
+import { ReceiptToStock } from 'modules/receipt-to-stock/entities/receipt-to-stock.entity';
 import { Supply } from 'modules/supplies/entities/supply.entity';
 import {
   Column,
@@ -7,7 +8,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  OneToOne
+  OneToOne,
+  OneToMany
 } from 'typeorm';
 
 @Entity()
@@ -31,6 +33,9 @@ export class Stock {
   //Supply relationship
   @OneToOne(() => Supply, (supply: Supply) => supply.stock)
   supply: Supply;
+
+  @OneToMany(() => ReceiptToStock, (receiptToStock: ReceiptToStock) => receiptToStock.stock)
+  receiptToStock: ReceiptToStock[];
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: string;

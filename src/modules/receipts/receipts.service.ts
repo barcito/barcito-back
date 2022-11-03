@@ -5,31 +5,35 @@ import { CreateReceiptDto } from './dto/create-receipt.dto';
 import { UpdateReceiptDto } from './dto/update-receipt.dto';
 import { Receipt } from './entities/receipt.entity';
 import { NotFoundException } from '@nestjs/common/exceptions';
-import { ProductsService } from 'modules/products/products.service';
 
 @Injectable()
 export class ReceiptsService {
   constructor(
     @InjectRepository(Receipt)
     private receiptsRepository: Repository<Receipt>,
-    private productsService: ProductsService
   ) {}
 
   async create(createReceiptDto: CreateReceiptDto): Promise<Receipt> {
     const createdReceipt = this.receiptsRepository.create(createReceiptDto);
-    const savedReceipt = await this.receiptsRepository.save(createdReceipt);
-    const product = await this.productsService.findById(savedReceipt.product.id);
-    /* const updStock = { stock: product.stock + savedReceipt.quantity, buyPrice: savedReceipt.amount / savedReceipt.quantity }; */
-    /* this.productsService.update(product.id, updStock); */
+    await this.receiptsRepository.save(createdReceipt);
     return createdReceipt;
   }
 
   findAll(): Promise<Receipt[]> {
-    return this.receiptsRepository.find();
+    return this.receiptsRepository.find({
+      relations: {
+        receiptToStock: true
+      }
+    });
   }
 
   async findById(id: number): Promise<Receipt> {
-    const receipt = await this.receiptsRepository.findOne({ where: { id } });
+    const receipt = await this.receiptsRepository.findOne({
+      where: { id },
+      relations: {
+        receiptToStock: true
+      }
+    });
     if (!receipt) throw new NotFoundException('Receipt not found');
     return receipt;
   }

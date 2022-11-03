@@ -1,11 +1,9 @@
-import { Product } from 'modules/products/entities/product.entity';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   OneToOne,
-  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   CreateDateColumn,
