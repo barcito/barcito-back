@@ -10,15 +10,15 @@ export class Receipt {
     date: string;
 
     @Column()
-    ticket: number; //cambiar a archivo directamente
+    ticket: string;
 
     @Column({ type: 'numeric', precision: 8 , scale: 2 })
     amount: number;
 
-    @Column()
+    @Column({ nullable: true })
     receiptPath: string;
 
-    @OneToMany(() => ReceiptToStock, (receiptToStock: ReceiptToStock) => receiptToStock.receipt)
+    @OneToMany(() => ReceiptToStock, (receiptToStock: ReceiptToStock) => receiptToStock.receipt, { cascade: true })
     receiptToStock: ReceiptToStock[];
 
     @CreateDateColumn({ type: 'timestamptz' })

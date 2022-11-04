@@ -10,6 +10,7 @@ import { Product } from 'modules/products/entities/product.entity';
 import { Supply } from 'modules/supplies/entities/supply.entity';
 import { Stock } from 'modules/stock/entities/stock.entity';
 import { ProductsSubscriber } from 'modules/products/subscribers/products.subscriber';
+import { ReceiptsSubscriber } from 'modules/receipts/subscribers/receipts.subscriber';
 
 @Module({
   imports: [
@@ -24,7 +25,12 @@ import { ProductsSubscriber } from 'modules/products/subscribers/products.subscr
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DATABASE'),
         entities: [],
-        subscribers: [OrderSubscriber, OrderedProductSubscriber, ProductsSubscriber],
+        subscribers: [
+          OrderSubscriber,
+          OrderedProductSubscriber,
+          ProductsSubscriber,
+          ReceiptsSubscriber
+        ],
         synchronize: true,
         autoLoadEntities: true, //quit on prod
       }),

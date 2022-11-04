@@ -5,8 +5,8 @@ export class CreateReceiptDto {
     @IsString()
     date: string;
 
-    @IsNumber()
-    ticket: number;
+    @IsString()
+    ticket: string;
 
     @IsNumber()
     amount: number;

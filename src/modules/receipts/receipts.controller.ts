@@ -37,7 +37,7 @@ export class ReceiptsController {
     return this.receiptsService.remove(id);
   }
 
-  @Patch('/image-update/:id')
+  @Patch('/document-update/:id')
   @UseInterceptors(
     FileInterceptor('receipt_doc', {
       fileFilter: receiptFileFilter,

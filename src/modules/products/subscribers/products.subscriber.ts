@@ -11,8 +11,6 @@ export class ProductsSubscriber implements EntitySubscriberInterface<Product>{
     }
 
     async afterUpdate(event: UpdateEvent<Product>): Promise<any> {
-        console.log(event.entity);
-        console.log(event.databaseEntity);
         if(event.entity.productToSupplies){
             const out = [];
             each(event.databaseEntity.productToSupplies, function(o){
