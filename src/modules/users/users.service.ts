@@ -40,6 +40,7 @@ export class UsersService {
       relations: {
         applicationDone: true,
         academicUnit: true,
+        barcitoManaged: true
       },
     });
     if (!user) throw new NotFoundException('User not found');
@@ -51,7 +52,8 @@ export class UsersService {
       where: { email },
       relations: {
         applicationDone: true,
-        academicUnit: true
+        academicUnit: true,
+        barcitoManaged: true
       }
     });
     return user;

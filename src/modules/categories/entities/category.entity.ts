@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne } from "typeorm";
 import { Product } from "modules/products/entities/product.entity";
+import { Barcito } from "modules/barcitos/entities/barcito.entity";
 
 @Entity()
 export class Category {
@@ -12,6 +13,9 @@ export class Category {
     //Product relationship
     @ManyToMany(() => Product, (product: Product) => product.categories)
     products: Product[];
+
+    @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.categories)
+    barcito: Barcito;
 
     @CreateDateColumn({ type: 'timestamptz' })
     createdAt: string;

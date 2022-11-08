@@ -65,6 +65,8 @@ export class AuthController {
     return {
       email: user.email,
       roles: user.roles,
+      academicUnit: user.academicUnit.id,
+      barcitoId: user.barcitoManaged?.id,
       refreshToken: user.refreshToken,
     };
   }

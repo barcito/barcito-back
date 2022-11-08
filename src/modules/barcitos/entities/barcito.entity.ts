@@ -1,4 +1,5 @@
 import { AcademicUnit } from 'modules/academic-units/entities/academic-unit.entity';
+import { Category } from 'modules/categories/entities/category.entity';
 import { Order } from 'modules/orders/entities/order.entity';
 import { Product } from 'modules/products/entities/product.entity';
 import { Supply } from 'modules/supplies/entities/supply.entity';
@@ -41,6 +42,9 @@ export class Barcito {
   //Supplies del barcito
   @OneToMany(() => Supply, (supply: Supply) => supply.barcito)
   supplies: Supply[];
+
+  @OneToMany(() => Category, (category: Category) => category.barcito)
+  categories: Category[];
 
   //Administradores del barcito
   @OneToMany(() => User, (manager: User) => manager.barcitoManaged)
