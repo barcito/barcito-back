@@ -49,6 +49,9 @@ export class Product {
   @JoinColumn()
   stock: Stock;
 
+  @Column()
+  barcitoId: number;
+
   //Category relationship
   @ManyToMany(() => Category, (category: Category) => category.products)
   @JoinTable({ name: "product_to_category" })

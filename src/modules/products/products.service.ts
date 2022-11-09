@@ -24,8 +24,7 @@ export class ProductsService {
       relations: {
         stock: true,
         productToSupplies: true,
-        categories: true,
-        barcito: true
+        categories: true
       }
     });
   }
@@ -36,12 +35,22 @@ export class ProductsService {
       relations: {
         stock: true,
         productToSupplies: true,
-        categories: true,
-        barcito: true
+        categories: true
       }
     });
     if (!product) throw new NotFoundException('Product not found');
     return product;
+  }
+
+  async findAllByBarcito(barcitoId: number): Promise<Product[]> {
+    return this.productsRepository.find({
+      where: { barcitoId },
+      relations: {
+        stock: true,
+        productToSupplies: true,
+        categories: true
+      }
+    })
   }
 
   async findAllSearched(query: string): Promise<Product[]> {

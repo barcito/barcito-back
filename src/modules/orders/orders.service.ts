@@ -28,6 +28,17 @@ export class OrdersService {
     });
   }
 
+  async findAllByBarcito(barcitoId: number): Promise<Order[]> {
+    return this.OrderRepository.find({
+      where: { barcitoId },
+      relations: {
+        barcito: true,
+        user: true,
+        products: true
+      }
+    })
+  }
+
   async findById(id: number): Promise<Order> {
     const order = await this.OrderRepository.findOne({
       where: { id },

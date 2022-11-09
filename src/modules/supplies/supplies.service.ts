@@ -28,6 +28,16 @@ export class SuppliesService {
     });
   }
 
+  async findAllByBarcito(barcitoId: number): Promise<Supply[]> {
+    return this.suppliesRepository.find({
+      where: { barcitoId },
+      relations: {
+        stock: true,
+        barcito: true
+      }
+    })
+  }
+
   async findById(id: number): Promise<Supply> {
     const supply = await this.suppliesRepository.findOne({
       where: { id },

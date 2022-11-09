@@ -17,6 +17,11 @@ export class CategoriesController {
     return this.categoriesService.findAll();
   }
 
+  @Get('/barcito/:barcitoId')
+  findByBarcito(@Param('barcitoId', ParseIntPipe) barcitoId: number){
+    return this.categoriesService.findAllByBarcito(barcitoId);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.categoriesService.findById(id);

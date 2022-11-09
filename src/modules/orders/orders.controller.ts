@@ -30,6 +30,11 @@ export class OrdersController {
     return this.ordersService.findAll();
   }
 
+  @Get('/barcito/:barcitoId')
+  findByBarcito(@Param('barcitoId', ParseIntPipe) barcitoId: number){
+    return this.ordersService.findAllByBarcito(barcitoId);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.ordersService.findById(id);

@@ -5,19 +5,22 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, Up
 @Entity()
 export class OrderedProduct {
   @PrimaryGeneratedColumn()
-  public id: number;
+  id: number;
 
   @Column()
-  public quantity: number;
+  quantity: number;
 
   @Column({ type: 'numeric', precision: 8 , scale: 2 })
-  public lockedPrice: number;
+  lockedPrice: number;
+
+  @Column()
+  productId: number;
 
   @ManyToOne(() => Order, (order) => order.products)
-  public order: Order;
+  order: Order;
 
   @ManyToOne(() => Product, (product) => product.orders)
-  public product: Product;
+  product: Product;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: string;

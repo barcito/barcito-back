@@ -22,6 +22,11 @@ export class ReceiptsController {
     return this.receiptsService.findAll();
   }
 
+  @Get('/barcito/:barcitoId')
+  findByBarcito(@Param('barcitoId', ParseIntPipe) barcitoId: number){
+    return this.receiptsService.findAllByBarcito(barcitoId);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.receiptsService.findById(id);

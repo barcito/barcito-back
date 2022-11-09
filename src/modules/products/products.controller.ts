@@ -29,24 +29,9 @@ export class ProductsController {
   @Roles(Role.MANAGER, Role.SUBMANAGER, Role.ADMIN)
   @UseGuards(RolesGuard)
   @Post()
-  /* @UseInterceptors(
-    FileInterceptor('product_img', {
-      fileFilter: productFileFilter,
-      limits: { fileSize: 10000000 },
-      storage: diskStorage({
-        destination: '../files-storage/products',
-        filename: productFileNamer,
-      }),
-    }),
-  ) */
   async create(
-    /* @UploadedFile() file: Express.Multer.File, */
     @Body() createProductDto: CreateProductDto,
   ) {
-    /* if (!file)
-      throw new BadRequestException('Make sure image is of a valid type');
-
-    createProductDto.imagePath = `${process.env.HOST_API}files/barcitos/${file.filename}`; */
     const product = await this.productsService.create(createProductDto);
     return product;
   }
@@ -59,6 +44,11 @@ export class ProductsController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.findById(id);
+  }
+
+  @Get('/barcito/:barcitoId')
+  findByBarcito(@Param('barcitoId', ParseIntPipe) barcitoId: number){
+    return this.productsService.findAllByBarcito(barcitoId);
   }
 
   @Get('search/:query')

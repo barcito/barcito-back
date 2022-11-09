@@ -10,6 +10,9 @@ export class Category {
     @Column()
     description: string;
 
+    @Column()
+    barcitoId: number;
+
     //Product relationship
     @ManyToMany(() => Product, (product: Product) => product.categories)
     products: Product[];

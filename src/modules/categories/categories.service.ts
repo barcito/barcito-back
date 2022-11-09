@@ -29,6 +29,12 @@ export class CategoriesService {
     return product;
   }
 
+  async findAllByBarcito(barcitoId: number): Promise<Category[]> {
+    return this.categoriesRespository.find({
+      where: { barcitoId }
+    })
+  }
+
   async findAllSearched(query: string): Promise<Category[]> {
     return this.categoriesRespository.find({
       where: {

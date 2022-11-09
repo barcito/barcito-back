@@ -27,6 +27,15 @@ export class ReceiptsService {
     });
   }
 
+  async findAllByBarcito(barcitoId: number): Promise<Receipt[]> {
+    return this.receiptsRepository.find({
+      where: { barcitoId },
+      relations: {
+        receiptToStock: true
+      }
+    })
+  }
+
   async findById(id: number): Promise<Receipt> {
     const receipt = await this.receiptsRepository.findOne({
       where: { id },

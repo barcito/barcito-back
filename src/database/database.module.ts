@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'modules/users/entities/user.entity';
 import { Application } from 'modules/applications/entities/application.entity';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
-import { OrderedProductSubscriber } from 'modules/ordered-products/subscribers/ordered-product.subscriber';
 import { OrderSubscriber } from 'modules/orders/subscribers/order.subscriber';
 import { Product } from 'modules/products/entities/product.entity';
 import { Supply } from 'modules/supplies/entities/supply.entity';
@@ -27,7 +26,6 @@ import { ReceiptsSubscriber } from 'modules/receipts/subscribers/receipts.subscr
         entities: [],
         subscribers: [
           OrderSubscriber,
-          OrderedProductSubscriber,
           ProductsSubscriber,
           ReceiptsSubscriber
         ],

@@ -31,6 +31,9 @@ export class Order {
   @Column({ type: 'numeric', precision: 8 , scale: 2 })
   amount: number;
 
+  @Column()
+  barcitoId: number;
+
   @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.orders)
   barcito: Barcito;
 

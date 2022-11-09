@@ -1,6 +1,6 @@
 import { EntitySubscriberInterface, EventSubscriber, UpdateEvent } from "typeorm";
 import { Product } from "../entities/product.entity";
-import { each, find, isEmpty, remove } from 'lodash';
+import { each, find, isEmpty } from 'lodash';
 import { ProductToSupply } from "modules/product-to-supply/entities/product-to-supply.entity";
 
 @EventSubscriber()

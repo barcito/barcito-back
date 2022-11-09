@@ -2,6 +2,7 @@ import { AcademicUnit } from 'modules/academic-units/entities/academic-unit.enti
 import { Category } from 'modules/categories/entities/category.entity';
 import { Order } from 'modules/orders/entities/order.entity';
 import { Product } from 'modules/products/entities/product.entity';
+import { Receipt } from 'modules/receipts/entities/receipt.entity';
 import { Supply } from 'modules/supplies/entities/supply.entity';
 import { User } from 'modules/users/entities/user.entity';
 import {
@@ -60,6 +61,9 @@ export class Barcito {
   //Pedidos realizados al barcito
   @OneToMany(() => Order, (order: Order) => order.barcito)
   orders: Order[];
+
+  @OneToMany(() => Receipt, (receipt: Receipt) => receipt.barcito)
+  receipts: Receipt[];
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: string;

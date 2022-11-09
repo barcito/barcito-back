@@ -25,6 +25,9 @@ export class Supply {
   @Column()
   available: boolean;
 
+  @Column()
+  barcitoId: number;
+
   @OneToOne(() => Stock, (stock: Stock) => stock.supply, { cascade: true })
   @JoinColumn()
   stock: Stock;

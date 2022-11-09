@@ -33,6 +33,11 @@ export class SuppliesController {
     return this.suppliesService.findAll();
   }
 
+  @Get('/barcito/:barcitoId')
+  findByBarcito(@Param('barcitoId', ParseIntPipe) barcitoId: number){
+    return this.suppliesService.findAllByBarcito(barcitoId);
+  }
+
   @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
