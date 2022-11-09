@@ -9,8 +9,8 @@ export class CreateOrderDto {
   status: OrderStatus;
 
   @IsOptional()
-  @IsString()
-  code: string;
+  @IsNumber()
+  code: number;
 
   @IsOptional()
   @IsNumber()

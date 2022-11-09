@@ -25,8 +25,8 @@ export class Order {
   })
   status: OrderStatus;
 
-  @Column()
-  code: string;
+  @Column({ type: 'numeric', precision: 14})
+  code: number;
 
   @Column({ type: 'numeric', precision: 8 , scale: 2 })
   amount: number;

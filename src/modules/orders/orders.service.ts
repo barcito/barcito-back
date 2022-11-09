@@ -52,7 +52,7 @@ export class OrdersService {
     return order;
   }
 
-  async findByCode(code: string): Promise<Order> {
+  async findByCode(code: number): Promise<Order> {
     const order = await this.OrderRepository.findOne({
       where: { code },
       relations: {

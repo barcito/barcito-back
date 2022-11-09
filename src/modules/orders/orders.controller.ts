@@ -41,7 +41,7 @@ export class OrdersController {
   }
 
   @Get('code/:code')
-  findByCode(@Param('code') code: string) {
+  findByCode(@Param('code', ParseIntPipe) code: number) {
     return this.ordersService.findByCode(code);
   }
 
