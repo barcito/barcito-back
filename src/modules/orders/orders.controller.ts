@@ -53,7 +53,7 @@ export class OrdersController {
     return this.ordersService.update(id, updateOrderDto);
   }
 
-  @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
+  @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(RolesGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {

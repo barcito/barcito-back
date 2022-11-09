@@ -20,14 +20,14 @@ import { RolesGuard } from 'common/guards/roles.guard';
 export class SuppliesController {
   constructor(private readonly suppliesService: SuppliesService) {}
 
-  @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
+  @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(RolesGuard)
   @Post()
   create(@Body() createSupplyDto: CreateSupplyDto) {
     return this.suppliesService.create(createSupplyDto);
   }
 
-  @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
+  @Roles(Role.ADMIN, Role.MANAGER)
   @Get()
   findAll() {
     return this.suppliesService.findAll();
@@ -38,20 +38,20 @@ export class SuppliesController {
     return this.suppliesService.findAllByBarcito(barcitoId);
   }
 
-  @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
+  @Roles(Role.ADMIN, Role.MANAGER)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.suppliesService.findById(id);
   }
 
-  @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
+  @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(RolesGuard)
   @Get('search/:query')
   search(@Param('query') query: string) {
     return this.suppliesService.findAllSearched(query);
   }
 
-  @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
+  @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(RolesGuard)
   @Patch(':id')
   update(
@@ -61,7 +61,7 @@ export class SuppliesController {
     return this.suppliesService.update(id, updateSupplyDto);
   }
 
-  @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
+  @Roles(Role.ADMIN, Role.MANAGER)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.suppliesService.remove(id);

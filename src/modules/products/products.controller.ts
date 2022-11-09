@@ -26,7 +26,7 @@ import { productFileFilter, productFileNamer } from 'files/helpers';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Roles(Role.MANAGER, Role.SUBMANAGER, Role.ADMIN)
+  @Roles(Role.MANAGER, Role.ADMIN)
   @UseGuards(RolesGuard)
   @Post()
   async create(
@@ -56,7 +56,7 @@ export class ProductsController {
     return this.productsService.findAllSearched(query);
   }
 
-  @Roles(Role.MANAGER, Role.SUBMANAGER, Role.ADMIN)
+  @Roles(Role.MANAGER, Role.ADMIN)
   @UseGuards(RolesGuard)
   @Patch(':id')
   update(
@@ -66,7 +66,7 @@ export class ProductsController {
     return this.productsService.update(id, updateProductDto);
   }
 
-  @Roles(Role.MANAGER, Role.SUBMANAGER, Role.ADMIN)
+  @Roles(Role.MANAGER, Role.ADMIN)
   @UseGuards(RolesGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
