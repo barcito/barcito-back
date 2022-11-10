@@ -9,7 +9,7 @@ export class ReceiptsSubscriber implements EntitySubscriberInterface<Receipt>{
         return Receipt;
     }
 
-    async afterInsert(event: InsertEvent<Receipt>): Promise<any> {
+    /* async afterInsert(event: InsertEvent<Receipt>): Promise<any> {
         const stockRepo = event.manager.getRepository(Stock);
         const stockPromises = event.entity.receiptToStock.map( async (rts) => {
             const stock = await stockRepo.findOne({ where: {id: rts.stockId} });
@@ -19,5 +19,5 @@ export class ReceiptsSubscriber implements EntitySubscriberInterface<Receipt>{
         })
         const stockToSave = await Promise.all(stockPromises);
         stockRepo.save(stockToSave);
-    }
+    } */
 }

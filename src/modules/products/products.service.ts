@@ -22,8 +22,6 @@ export class ProductsService {
   findAll(): Promise<Product[]> {
     return this.productsRepository.find({
       relations: {
-        stock: true,
-        productToSupplies: true,
         categories: true
       }
     });
@@ -33,8 +31,6 @@ export class ProductsService {
     const product = await this.productsRepository.findOne({
       where: { id },
       relations: {
-        stock: true,
-        productToSupplies: true,
         categories: true
       }
     });
@@ -46,8 +42,6 @@ export class ProductsService {
     return this.productsRepository.find({
       where: { barcitoId },
       relations: {
-        stock: true,
-        productToSupplies: true,
         categories: true
       }
     })

@@ -1,6 +1,5 @@
 import { OrderStatus } from "enums/order-status.enum";
 import { Product } from "modules/products/entities/product.entity";
-import { Supply } from "modules/supplies/entities/supply.entity";
 import { EntitySubscriberInterface, EventSubscriber, InsertEvent, UpdateEvent } from "typeorm";
 import { Order } from "../entities/order.entity";
 
@@ -11,7 +10,7 @@ export class OrderSubscriber implements EntitySubscriberInterface<Order>{
         return Order;
     }
 
-    async beforeInsert(event: InsertEvent<Order>): Promise<any> {
+    /* async beforeInsert(event: InsertEvent<Order>): Promise<any> {
         const productRepository = event.manager.getRepository(Product);
         const supplyRepository = event.manager.getRepository(Supply);
         const prodsToSave = [];
@@ -67,5 +66,5 @@ export class OrderSubscriber implements EntitySubscriberInterface<Order>{
             await productRepository.save(prodsToSave);
             await supplyRepository.save(suppsToSave);
         }
-    }
+    } */
 }

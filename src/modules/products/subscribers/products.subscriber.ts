@@ -1,7 +1,6 @@
 import { EntitySubscriberInterface, EventSubscriber, UpdateEvent } from "typeorm";
 import { Product } from "../entities/product.entity";
 import { each, find, isEmpty } from 'lodash';
-import { ProductToSupply } from "modules/product-to-supply/entities/product-to-supply.entity";
 
 @EventSubscriber()
 export class ProductsSubscriber implements EntitySubscriberInterface<Product>{
@@ -10,7 +9,7 @@ export class ProductsSubscriber implements EntitySubscriberInterface<Product>{
         return Product;
     }
 
-    async afterUpdate(event: UpdateEvent<Product>): Promise<any> {
+    /* async afterUpdate(event: UpdateEvent<Product>): Promise<any> {
         if(event.entity.productToSupplies){
             const out = [];
             each(event.databaseEntity.productToSupplies, function(o){
@@ -21,5 +20,5 @@ export class ProductsSubscriber implements EntitySubscriberInterface<Product>{
             })
             out.map((prodToSupply) => event.manager.delete(ProductToSupply, {id: prodToSupply.id}));
         }
-    }
+    } */
 }
