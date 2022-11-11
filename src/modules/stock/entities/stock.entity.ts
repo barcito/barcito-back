@@ -2,7 +2,6 @@ import { StockType } from 'enums/stock-type.enum';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { Category } from 'modules/categories/entities/category.entity';
 import { ProductToStock } from 'modules/product-to-stock/entities/product-to-stock.entity';
-import { Product } from 'modules/products/entities/product.entity';
 import { ReceiptToStock } from 'modules/receipt-to-stock/entities/receipt-to-stock.entity';
 import {
   Column,
@@ -14,7 +13,8 @@ import {
   OneToOne,
   OneToMany,
   ManyToOne,
-  ManyToMany
+  ManyToMany,
+  JoinTable
 } from 'typeorm';
 
 @Entity()
@@ -44,6 +44,7 @@ export class Stock {
   barcitoId: number;
 
   @ManyToMany(() => Category, (category: Category) => category.stock)
+  @JoinTable({ name: "stock_to_categories" })
   categories: Category[]
 
   //Product relationship

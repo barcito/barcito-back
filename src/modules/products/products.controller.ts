@@ -22,7 +22,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { productFileFilter, productFileNamer } from 'files/helpers';
 
-@Controller('products')
+@Controller('products/:barcito')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -30,25 +30,21 @@ export class ProductsController {
   @UseGuards(RolesGuard)
   @Post()
   async create(
+    @Param('barcito', ParseIntPipe) barcito: number,
     @Body() createProductDto: CreateProductDto,
   ) {
-    const product = await this.productsService.create(createProductDto);
+    const product = await this.productsService.create(barcito, createProductDto);
     return product;
   }
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.productsService.findAll(barcito);
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.findById(id);
-  }
-
-  @Get('/barcito/:barcitoId')
-  findByBarcito(@Param('barcitoId', ParseIntPipe) barcitoId: number){
-    return this.productsService.findAllByBarcito(barcitoId);
   }
 
   @Get('search/:query')

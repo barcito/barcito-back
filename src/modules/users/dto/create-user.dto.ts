@@ -4,6 +4,7 @@ import {
   IsEmail,
   IsArray,
 } from '@nestjs/class-validator';
+import { IsNumber } from 'class-validator';
 import { AcademicUnit } from 'modules/academic-units/entities/academic-unit.entity';
 import { Application } from 'modules/applications/entities/application.entity';
 
@@ -32,6 +33,9 @@ export class CreateUserDto {
   refreshToken: string;
 
   academicUnit: AcademicUnit;
+
+  @IsNumber()
+  barcitoManagedId: number;
 
   @IsOptional()
   applicationDone: Application;

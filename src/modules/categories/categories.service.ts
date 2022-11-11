@@ -5,38 +5,33 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
 import { NotFoundException } from '@nestjs/common/exceptions';
+import { CategoryType } from 'enums/category-type.enum';
 
 @Injectable()
 export class CategoriesService {
   constructor(
     @InjectRepository(Category)
-    private categoriesRespository: Repository<Category>
+    private categoriesRepository: Repository<Category>
   ){}
 
-  async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    const createdCategory = this.categoriesRespository.create(createCategoryDto);
-    await this.categoriesRespository.save(createdCategory);
+  async create(createCategoryDto: CreateCategoryDto, barcito: number): Promise<Category> {
+    const createdCategory = this.categoriesRepository.create({...createCategoryDto, barcitoId: barcito });
+    await this.categoriesRepository.save(createdCategory);
     return createdCategory;
   }
 
   findAll(): Promise<Category[]> {
-    return this.categoriesRespository.find();
+    return this.categoriesRepository.find();
   }
 
   async findById(id: number): Promise<Category> {
-    const product = await this.categoriesRespository.findOne({ where: { id } });
+    const product = await this.categoriesRepository.findOne({ where: { id } });
     if (!product) throw new NotFoundException('Category not found');
     return product;
   }
 
-  async findAllByBarcito(barcitoId: number): Promise<Category[]> {
-    return this.categoriesRespository.find({
-      where: { barcitoId }
-    })
-  }
-
   async findAllSearched(query: string): Promise<Category[]> {
-    return this.categoriesRespository.find({
+    return this.categoriesRepository.find({
       where: {
         description: Like(`%${query}%`),
       },
@@ -44,14 +39,41 @@ export class CategoriesService {
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    await this.categoriesRespository.update(id, updateCategoryDto);
+    await this.categoriesRepository.update(id, updateCategoryDto);
     const updatedCategory = this.findById(id);
     return updatedCategory;
   }
 
   async remove(id: number) {
-    const deleteResponse = await this.categoriesRespository.delete(id);
+    const deleteResponse = await this.categoriesRepository.delete(id);
     if (!deleteResponse.affected)
       throw new NotFoundException('Product not found');
+  }
+
+  async getAllConsumables(barcito: number): Promise<Category[]>{
+    return this.categoriesRepository.find({
+      where: {
+        barcitoId: barcito,
+        type: CategoryType.CONSUMABLE
+      }
+    });
+  }
+
+  async getAllSupplies(barcito: number): Promise<Category[]>{
+    return this.categoriesRepository.find({
+      where: {
+        barcitoId: barcito,
+        type: CategoryType.SUPPLY
+      }
+    });
+  }
+
+  async getAllProducts(barcito: number): Promise<Category[]>{
+    return this.categoriesRepository.find({
+      where: {
+        barcitoId: barcito,
+        type: CategoryType.PRODUCT
+      }
+    });
   }
 }

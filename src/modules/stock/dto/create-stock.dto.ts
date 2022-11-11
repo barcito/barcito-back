@@ -1,5 +1,6 @@
 import { IsArray, IsEnum, IsNumber, IsString } from "@nestjs/class-validator";
 import { StockType } from "enums/stock-type.enum";
+import { Category } from "modules/categories/entities/category.entity";
 
 export class CreateStockDto {
     @IsEnum(StockType)
@@ -17,6 +18,6 @@ export class CreateStockDto {
     @IsNumber()
     warning: number;
 
-    @IsNumber()
-    barcitoId: number;
+    @IsArray()
+    categories: Category[];
 }

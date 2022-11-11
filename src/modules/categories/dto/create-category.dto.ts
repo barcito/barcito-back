@@ -7,10 +7,4 @@ export class CreateCategoryDto {
 
     @IsString()
     description: string;
-
-    @IsBoolean()
-    forStock: boolean;
-
-    @IsNumber()
-    barcitoId: number;
 }
