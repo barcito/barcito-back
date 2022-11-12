@@ -34,6 +34,7 @@ export class CreateUserDto {
 
   academicUnit: AcademicUnit;
 
+  @IsOptional()
   @IsNumber()
   barcitoManagedId: number;
 
