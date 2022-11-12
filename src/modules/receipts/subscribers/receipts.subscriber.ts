@@ -10,15 +10,16 @@ export class ReceiptsSubscriber implements EntitySubscriberInterface<Receipt>{
     }
 
     async afterInsert(event: InsertEvent<Receipt>): Promise<any> {
-        const stockRepo = event.manager.getRepository(Stock);
-        const stockToSave = await Promise.all(
-            event.entity.receiptToStock.map( async (rts) => {
-                const stock = await stockRepo.findOne({ where: {id: rts.stockId} });
-                stock.cost = rts.totalCost / rts.quantity;
-                stock.quantity += rts.quantity;
-                return stock;
-        }));
-        console.log(stockToSave);
-        stockRepo.save(stockToSave);
+        await event.manager.transaction( async (transactionalEntityManager) => {
+            const stockRepo = transactionalEntityManager.getRepository(Stock);
+            const stockToSave = await Promise.all(
+                event.entity.receiptToStock.map( async (rts) => {
+                    const stock = await stockRepo.findOne({ where: {id: rts.stockId} });
+                    stock.cost = rts.totalCost / rts.quantity;
+                    stock.quantity += rts.quantity;
+                    return stock;
+            }));
+            await stockRepo.save(stockToSave);
+        })
     }
 }
