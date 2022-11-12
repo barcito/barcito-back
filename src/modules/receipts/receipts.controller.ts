@@ -7,24 +7,19 @@ import { receiptFileFilter } from 'files/helpers/receiptFileFilter.helper';
 import { diskStorage } from 'multer';
 import { receiptFileNamer } from 'files/helpers/receiptFileName.helper';
 
-@Controller('receipts')
+@Controller('receipts/:barcito')
 export class ReceiptsController {
   constructor(private readonly receiptsService: ReceiptsService) {}
 
   @Post()
-  async create(@Body() createReceiptDto: CreateReceiptDto) {
-    const receipt = await this.receiptsService.create(createReceiptDto);
+  async create(@Param('barcito', ParseIntPipe) barcito: number, @Body() createReceiptDto: CreateReceiptDto) {
+    const receipt = await this.receiptsService.create(barcito, createReceiptDto);
     return receipt;
   }
 
   @Get()
-  findAll() {
-    return this.receiptsService.findAll();
-  }
-
-  @Get('/barcito/:barcitoId')
-  findByBarcito(@Param('barcitoId', ParseIntPipe) barcitoId: number){
-    return this.receiptsService.findAllByBarcito(barcitoId);
+  findAll(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.receiptsService.findAll(barcito);
   }
 
   @Get(':id')

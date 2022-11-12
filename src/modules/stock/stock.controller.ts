@@ -13,7 +13,7 @@ export class StockController {
   }
 
   @Get()
-  findAll(@Param('barcito', ParseIntPipe) barcito: number, ) {
+  findAll(@Param('barcito', ParseIntPipe) barcito: number) {
     return this.stockService.findAll(barcito);
   }
 

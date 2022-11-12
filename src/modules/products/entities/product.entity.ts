@@ -33,9 +33,6 @@ export class Product {
   @Column({ type: 'numeric', precision: 8 , scale: 2 })
   associatedSellPrice: number;
 
-  @Column({ type: 'numeric', precision: 8 , scale: 2 })
-  discount: number;
-
   @Column({ nullable: true })
   imagePath: string;
 

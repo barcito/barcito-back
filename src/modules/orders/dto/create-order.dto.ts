@@ -19,7 +19,5 @@ export class CreateOrderDto {
   @IsArray()
   products: OrderedProduct[];
 
-  barcitoId: number;
-
   user: User;
 }

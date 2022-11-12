@@ -1,5 +1,4 @@
-import { IsNumber, IsOptional, IsString } from "@nestjs/class-validator";
-import { IsArray, IsNumberString } from "class-validator";
+import { IsNumber, IsOptional, IsString, IsArray } from "@nestjs/class-validator";
 import { ReceiptToStock } from "modules/receipt-to-stock/entities/receipt-to-stock.entity";
 
 export class CreateReceiptDto {
@@ -18,7 +17,4 @@ export class CreateReceiptDto {
 
     @IsArray()
     receiptToStock: ReceiptToStock[];
-
-    @IsNumberString()
-    barcitoId: number;
 }

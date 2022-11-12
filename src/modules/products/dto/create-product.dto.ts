@@ -16,9 +16,6 @@ export class CreateProductDto {
   @IsNumber()
   associatedSellPrice: number;
 
-  @IsNumber()
-  discount: number;
-
   @IsOptional()
   @IsString()
   imagePath: string;

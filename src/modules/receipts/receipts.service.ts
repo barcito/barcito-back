@@ -13,27 +13,21 @@ export class ReceiptsService {
     private receiptsRepository: Repository<Receipt>,
   ) {}
 
-  async create(createReceiptDto: CreateReceiptDto): Promise<Receipt> {
-    const createdReceipt = this.receiptsRepository.create(createReceiptDto);
+  async create(barcito: number, createReceiptDto: CreateReceiptDto): Promise<Receipt> {
+    const createdReceipt = this.receiptsRepository.create({...createReceiptDto, barcitoId: barcito});
     await this.receiptsRepository.save(createdReceipt);
     return createdReceipt;
   }
 
-  findAll(): Promise<Receipt[]> {
+  findAll(barcito: number): Promise<Receipt[]> {
     return this.receiptsRepository.find({
+      where: {
+        barcitoId: barcito
+      },
       relations: {
         receiptToStock: true
       }
     });
-  }
-
-  async findAllByBarcito(barcitoId: number): Promise<Receipt[]> {
-    return this.receiptsRepository.find({
-      where: { barcitoId },
-      relations: {
-        receiptToStock: true
-      }
-    })
   }
 
   async findById(id: number): Promise<Receipt> {

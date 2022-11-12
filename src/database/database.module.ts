@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderSubscriber } from 'modules/orders/subscribers/order.subscriber';
-import { ProductsSubscriber } from 'modules/products/subscribers/products.subscriber';
 import { ReceiptsSubscriber } from 'modules/receipts/subscribers/receipts.subscriber';
 
 @Module({
@@ -20,7 +19,6 @@ import { ReceiptsSubscriber } from 'modules/receipts/subscribers/receipts.subscr
         entities: [],
         subscribers: [
           OrderSubscriber,
-          ProductsSubscriber,
           ReceiptsSubscriber
         ],
         synchronize: true,
