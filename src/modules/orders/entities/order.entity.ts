@@ -25,11 +25,14 @@ export class Order {
   })
   status: OrderStatus;
 
-  @Column()
-  code: string;
+  @Column({ type: 'numeric', precision: 14})
+  code: number;
 
   @Column({ type: 'numeric', precision: 8 , scale: 2 })
   amount: number;
+
+  @Column()
+  barcitoId: number;
 
   @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.orders)
   barcito: Barcito;
@@ -47,9 +50,9 @@ export class Order {
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @DeleteDateColumn({ type: 'timestamptz' })
   deletedAt: string;
 }

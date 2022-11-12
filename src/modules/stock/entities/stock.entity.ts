@@ -1,5 +1,8 @@
-import { Product } from 'modules/products/entities/product.entity';
-import { Supply } from 'modules/supplies/entities/supply.entity';
+import { StockType } from 'enums/stock-type.enum';
+import { Barcito } from 'modules/barcitos/entities/barcito.entity';
+import { Category } from 'modules/categories/entities/category.entity';
+import { ProductToStock } from 'modules/product-to-stock/entities/product-to-stock.entity';
+import { ReceiptToStock } from 'modules/receipt-to-stock/entities/receipt-to-stock.entity';
 import {
   Column,
   Entity,
@@ -7,13 +10,26 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  OneToOne
+  OneToOne,
+  OneToMany,
+  ManyToOne,
+  ManyToMany,
+  JoinTable
 } from 'typeorm';
 
 @Entity()
 export class Stock {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({
+    type: 'enum',
+    enum: StockType
+  })
+  type: StockType;
+
+  @Column()
+  description: string;
 
   @Column({ type: 'numeric', precision: 8 , scale: 2 })
   cost: number;
@@ -24,13 +40,24 @@ export class Stock {
   @Column()
   warning: number;
 
-  //Product relationship
-  @OneToOne(() => Product, (product: Product) => product.stock)
-  product: Product;
+  @Column()
+  barcitoId: number;
 
-  //Supply relationship
-  @OneToOne(() => Supply, (supply: Supply) => supply.stock)
-  supply: Supply;
+  @ManyToMany(() => Category, (category: Category) => category.stock)
+  @JoinTable({ name: "stock_to_categories" })
+  categories: Category[]
+
+  //Product relationship
+  @OneToMany(() => ProductToStock, (productToStock: ProductToStock) => productToStock.stock)
+  productToStock: ProductToStock[];
+
+  //Barcito relationship
+  @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.stock)
+  barcito: Barcito;
+
+  //Receipt relationship
+  @OneToMany(() => ReceiptToStock, (receiptToStock: ReceiptToStock) => receiptToStock.stock)
+  receiptToStock: ReceiptToStock[];
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: string;

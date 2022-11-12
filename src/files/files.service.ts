@@ -42,4 +42,17 @@ export class FilesService {
 
     return path;
   }
+
+  getReceiptDoc(docName: string) {
+    const path = join(
+      __dirname,
+      '../../../files-storage/receipts',
+      `${docName}`,
+    );
+
+    if (!existsSync(path))
+      throw new BadRequestException('Receipt document not found');
+
+    return path;
+  }
 }

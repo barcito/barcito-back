@@ -16,18 +16,18 @@ import { Roles } from 'common/decorators/roles.decorator';
 import { Role } from 'enums/role.enum';
 import { RolesGuard } from 'common/guards/roles.guard';
 
-@Controller('orders')
+@Controller('orders/:barcito')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+  create(@Param('barcito', ParseIntPipe) barcito: number, @Body() createOrderDto: CreateOrderDto) {
+    return this.ordersService.create(barcito, createOrderDto);
   }
 
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.ordersService.findAll(barcito);
   }
 
   @Get(':id')
@@ -36,7 +36,7 @@ export class OrdersController {
   }
 
   @Get('code/:code')
-  findByCode(@Param('code') code: string) {
+  findByCode(@Param('code', ParseIntPipe) code: number) {
     return this.ordersService.findByCode(code);
   }
 
@@ -48,7 +48,7 @@ export class OrdersController {
     return this.ordersService.update(id, updateOrderDto);
   }
 
-  @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
+  @Roles(Role.ADMIN, Role.MANAGER)
   @UseGuards(RolesGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {

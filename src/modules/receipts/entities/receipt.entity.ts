@@ -1,5 +1,6 @@
-import { Product } from "modules/products/entities/product.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
+import { Barcito } from "modules/barcitos/entities/barcito.entity";
+import { ReceiptToStock } from "modules/receipt-to-stock/entities/receipt-to-stock.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne } from "typeorm";
 
 @Entity()
 export class Receipt {
@@ -10,16 +11,22 @@ export class Receipt {
     date: string;
 
     @Column()
-    ticket: number; //cambiar a archivo directamente
-
-    @Column()
-    quantity: number;
+    ticket: string;
 
     @Column({ type: 'numeric', precision: 8 , scale: 2 })
     amount: number;
 
-    @ManyToOne(() => Product, (product: Product) => product.receipts)
-    product: Product;
+    @Column({ nullable: true })
+    receiptPath: string;
+
+    @Column()
+    barcitoId: number;
+
+    @OneToMany(() => ReceiptToStock, (receiptToStock: ReceiptToStock) => receiptToStock.receipt, { cascade: true })
+    receiptToStock: ReceiptToStock[];
+
+    @ManyToOne(() => Barcito, (barcito: Barcito) => barcito.receipts)
+    barcito: Barcito;
 
     @CreateDateColumn({ type: 'timestamptz' })
     createdAt: string;

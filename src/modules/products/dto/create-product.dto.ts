@@ -1,8 +1,6 @@
 import { IsArray, IsNumber, IsString, IsOptional, IsBoolean } from '@nestjs/class-validator';
-import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { Category } from 'modules/categories/entities/category.entity';
-import { ProductToSupply } from 'modules/product-to-supply/entities/product-to-supply.entity';
-import { Stock } from 'modules/stock/entities/stock.entity';
+import { ProductToStock } from 'modules/product-to-stock/entities/product-to-stock.entity';
 
 export class CreateProductDto {
 
@@ -18,27 +16,13 @@ export class CreateProductDto {
   @IsNumber()
   associatedSellPrice: number;
 
-  @IsNumber()
-  discount: number;
-
-  @IsOptional()
-  @IsNumber()
-  stockForSale: number;
-
   @IsOptional()
   @IsString()
   imagePath: string;
 
-  stock: Stock;
+  @IsArray()
+  productToStock: ProductToStock[];
 
-  @IsOptional()
   @IsArray()
   categories: Category[];
-
-  @IsOptional()
-  @IsArray()
-  productToSupplies: ProductToSupply[];
-
-  @IsOptional()
-  barcito: Barcito;
 }

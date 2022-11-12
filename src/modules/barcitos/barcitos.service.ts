@@ -33,6 +33,7 @@ export class BarcitosService {
       where: { id },
       relations: {
         academicUnit: true,
+        managers: true
       },
     });
     if (!barcito) throw new NotFoundException('Barcito not found');

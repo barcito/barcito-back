@@ -35,4 +35,14 @@ export class FilesController {
 
     res.sendFile(path);
   }
+
+  @Get('receipts/:docName')
+  findReceiptDoc(
+    @Res() res: Response,
+    @Param('docName') docName: string,
+  ) {
+    const path = this.filesService.getReceiptDoc(docName);
+
+    res.sendFile(path);
+  }
 }

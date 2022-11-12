@@ -1,18 +1,20 @@
-import { IsNumber, IsString } from "@nestjs/class-validator";
-import { Product } from "modules/products/entities/product.entity";
+import { IsNumber, IsOptional, IsString, IsArray } from "@nestjs/class-validator";
+import { ReceiptToStock } from "modules/receipt-to-stock/entities/receipt-to-stock.entity";
 
 export class CreateReceiptDto {
     @IsString()
     date: string;
 
-    @IsNumber()
-    ticket: number;
-
-    @IsNumber()
-    quantity: number;
+    @IsString()
+    ticket: string;
 
     @IsNumber()
     amount: number;
 
-    product: Product;
+    @IsOptional()
+    @IsString()
+    receiptPath: string;
+
+    @IsArray()
+    receiptToStock: ReceiptToStock[];
 }

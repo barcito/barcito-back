@@ -48,6 +48,9 @@ export class User {
   roles: Role[];
 
   @Column({ nullable: true })
+  barcitoManagedId: number;
+
+  @Column({ nullable: true })
   refreshToken: string;
 
   //Solicitudes y certificados

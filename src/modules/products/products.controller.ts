@@ -22,38 +22,24 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { productFileFilter, productFileNamer } from 'files/helpers';
 
-@Controller('products')
+@Controller('products/:barcito')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Roles(Role.MANAGER, Role.SUBMANAGER, Role.ADMIN)
+  @Roles(Role.MANAGER, Role.ADMIN)
   @UseGuards(RolesGuard)
   @Post()
-  /* @UseInterceptors(
-    FileInterceptor('product_img', {
-      fileFilter: productFileFilter,
-      limits: { fileSize: 10000000 },
-      storage: diskStorage({
-        destination: '../files-storage/products',
-        filename: productFileNamer,
-      }),
-    }),
-  ) */
   async create(
-    /* @UploadedFile() file: Express.Multer.File, */
+    @Param('barcito', ParseIntPipe) barcito: number,
     @Body() createProductDto: CreateProductDto,
   ) {
-    /* if (!file)
-      throw new BadRequestException('Make sure image is of a valid type');
-
-    createProductDto.imagePath = `${process.env.HOST_API}files/barcitos/${file.filename}`; */
-    const product = await this.productsService.create(createProductDto);
+    const product = await this.productsService.create(barcito, createProductDto);
     return product;
   }
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.productsService.findAll(barcito);
   }
 
   @Get(':id')
@@ -66,7 +52,7 @@ export class ProductsController {
     return this.productsService.findAllSearched(query);
   }
 
-  @Roles(Role.MANAGER, Role.SUBMANAGER, Role.ADMIN)
+  @Roles(Role.MANAGER, Role.ADMIN)
   @UseGuards(RolesGuard)
   @Patch(':id')
   update(
@@ -76,7 +62,7 @@ export class ProductsController {
     return this.productsService.update(id, updateProductDto);
   }
 
-  @Roles(Role.MANAGER, Role.SUBMANAGER, Role.ADMIN)
+  @Roles(Role.MANAGER, Role.ADMIN)
   @UseGuards(RolesGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {

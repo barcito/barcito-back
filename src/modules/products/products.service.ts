@@ -13,19 +13,20 @@ export class ProductsService {
     private productsRepository: Repository<Product>
   ) {}
 
-  async create(createProductDto: CreateProductDto): Promise<Product> {
-    const createdProduct = this.productsRepository.create(createProductDto);
+  async create(barcito: number, createProductDto: CreateProductDto): Promise<Product> {
+    const createdProduct = this.productsRepository.create({...createProductDto, barcitoId: barcito});
     await this.productsRepository.save(createdProduct);
     return createdProduct;
   }
 
-  findAll(): Promise<Product[]> {
+  findAll(barcito: number): Promise<Product[]> {
     return this.productsRepository.find({
+      where: {
+        barcitoId: barcito
+      },
       relations: {
-        stock: true,
-        productToSupplies: true,
         categories: true,
-        barcito: true
+        productToStock: true
       }
     });
   }
@@ -34,10 +35,8 @@ export class ProductsService {
     const product = await this.productsRepository.findOne({
       where: { id },
       relations: {
-        stock: true,
-        productToSupplies: true,
         categories: true,
-        barcito: true
+        productToStock: true
       }
     });
     if (!product) throw new NotFoundException('Product not found');

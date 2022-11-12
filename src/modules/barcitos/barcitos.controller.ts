@@ -62,7 +62,7 @@ export class BarcitosController {
     return this.barcitosService.findById(id);
   }
 
-  @Roles(Role.ADMIN, Role.MANAGER, Role.SUBMANAGER)
+  @Roles(Role.ADMIN, Role.MANAGER)
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
