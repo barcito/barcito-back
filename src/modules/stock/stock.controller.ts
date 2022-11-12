@@ -3,18 +3,28 @@ import { StockService } from './stock.service';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 
-@Controller('stock')
+@Controller('stock/:barcito')
 export class StockController {
   constructor(private readonly stockService: StockService) {}
 
   @Post()
-  create(@Body() createStockDto: CreateStockDto) {
-    return this.stockService.create(createStockDto);
+  create(@Param('barcito', ParseIntPipe) barcito: number, @Body() createStockDto: CreateStockDto) {
+    return this.stockService.create(barcito, createStockDto);
   }
 
   @Get()
-  findAll() {
-    return this.stockService.findAll();
+  findAll(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.stockService.findAll(barcito);
+  }
+
+  @Get('consumables')
+  findAllConsumables(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.stockService.getAllConsumables(barcito);
+  }
+
+  @Get('supplies')
+  findAllSupplies(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.stockService.getAllSupplies(barcito);
   }
 
   @Get(':id')

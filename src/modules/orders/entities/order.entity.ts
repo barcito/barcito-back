@@ -50,9 +50,9 @@ export class Order {
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: string;
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @DeleteDateColumn({ type: 'timestamptz' })
   deletedAt: string;
 }

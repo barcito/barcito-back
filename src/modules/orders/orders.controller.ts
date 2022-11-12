@@ -16,23 +16,18 @@ import { Roles } from 'common/decorators/roles.decorator';
 import { Role } from 'enums/role.enum';
 import { RolesGuard } from 'common/guards/roles.guard';
 
-@Controller('orders')
+@Controller('orders/:barcito')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+  create(@Param('barcito', ParseIntPipe) barcito: number, @Body() createOrderDto: CreateOrderDto) {
+    return this.ordersService.create(barcito, createOrderDto);
   }
 
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
-  }
-
-  @Get('/barcito/:barcitoId')
-  findByBarcito(@Param('barcitoId', ParseIntPipe) barcitoId: number){
-    return this.ordersService.findAllByBarcito(barcitoId);
+  findAll(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.ordersService.findAll(barcito);
   }
 
   @Get(':id')

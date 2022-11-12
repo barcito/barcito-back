@@ -3,13 +3,13 @@ import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
-@Controller('categories')
+@Controller('categories/:barcito')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoriesService.create(createCategoryDto);
+  create(@Param('barcito', ParseIntPipe) barcito: number, @Body() createCategoryDto: CreateCategoryDto) {
+    return this.categoriesService.create(createCategoryDto, barcito);
   }
 
   @Get()
@@ -17,9 +17,19 @@ export class CategoriesController {
     return this.categoriesService.findAll();
   }
 
-  @Get('/barcito/:barcitoId')
-  findByBarcito(@Param('barcitoId', ParseIntPipe) barcitoId: number){
-    return this.categoriesService.findAllByBarcito(barcitoId);
+  @Get('consumables')
+  findAllConsumables(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.categoriesService.getAllConsumables(barcito);
+  }
+  
+  @Get('supplies')
+  findAllSupplies(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.categoriesService.getAllSupplies(barcito);
+  }
+
+  @Get('products')
+  findAllProducts(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.categoriesService.getAllProducts(barcito);
   }
 
   @Get(':id')

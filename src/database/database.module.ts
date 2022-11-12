@@ -1,14 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'modules/users/entities/user.entity';
-import { Application } from 'modules/applications/entities/application.entity';
-import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { OrderSubscriber } from 'modules/orders/subscribers/order.subscriber';
-import { Product } from 'modules/products/entities/product.entity';
-import { Supply } from 'modules/supplies/entities/supply.entity';
-import { Stock } from 'modules/stock/entities/stock.entity';
-import { ProductsSubscriber } from 'modules/products/subscribers/products.subscriber';
 import { ReceiptsSubscriber } from 'modules/receipts/subscribers/receipts.subscriber';
 
 @Module({
@@ -26,7 +19,6 @@ import { ReceiptsSubscriber } from 'modules/receipts/subscribers/receipts.subscr
         entities: [],
         subscribers: [
           OrderSubscriber,
-          ProductsSubscriber,
           ReceiptsSubscriber
         ],
         synchronize: true,

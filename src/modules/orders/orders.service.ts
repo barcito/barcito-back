@@ -12,31 +12,23 @@ export class OrdersService {
     private OrderRepository: Repository<Order>,
   ) {}
 
-  async create(createOrderDto: CreateOrderDto): Promise<Order> {
-    const createdOrder = this.OrderRepository.create(createOrderDto);
+  async create(barcito: number, createOrderDto: CreateOrderDto): Promise<Order> {
+    const createdOrder = this.OrderRepository.create({...createOrderDto, barcitoId: barcito});
     await this.OrderRepository.save(createOrderDto);
     return createdOrder;
   }
 
-  async findAll(): Promise<Order[]> {
+  async findAll(barcito: number): Promise<Order[]> {
     return this.OrderRepository.find({
+      where: {
+        barcitoId: barcito
+      },
       relations: {
         barcito: true,
         user: true,
         products: true
       },
     });
-  }
-
-  async findAllByBarcito(barcitoId: number): Promise<Order[]> {
-    return this.OrderRepository.find({
-      where: { barcitoId },
-      relations: {
-        barcito: true,
-        user: true,
-        products: true
-      }
-    })
   }
 
   async findById(id: number): Promise<Order> {

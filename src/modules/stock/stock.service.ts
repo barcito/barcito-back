@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { StockType } from 'enums/stock-type.enum';
 import { Repository } from 'typeorm';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
@@ -12,17 +13,19 @@ export class StockService {
     private stockRepository: Repository<Stock>
   ){}
 
-  async create(createStockDto: CreateStockDto): Promise<Stock> {
-    const createdStock = this.stockRepository.create(createStockDto);
+  async create(barcito: number, createStockDto: CreateStockDto): Promise<Stock> {
+    const createdStock = this.stockRepository.create({...createStockDto, barcitoId: barcito});
     await this.stockRepository.save(createdStock);
     return createdStock;
   }
 
-  findAll(): Promise<Stock[]> {
+  findAll(barcito: number): Promise<Stock[]> {
     return this.stockRepository.find({
+      where: {
+        barcitoId: barcito
+      },
       relations: {
-        product: true,
-        supply: true
+        categories: true
       }
     });
   }
@@ -31,8 +34,7 @@ export class StockService {
     const stock = await this.stockRepository.findOne({
       where: { id },
       relations: {
-        product: true,
-        supply: true
+        categories: true
       }
     });
     if (!stock) throw new NotFoundException('Stock not found');
@@ -49,5 +51,29 @@ export class StockService {
     const deleteResponse = await this.stockRepository.delete(id);
     if (!deleteResponse.affected)
       throw new NotFoundException('Stock not found');
+  }
+
+  async getAllConsumables(barcito: number): Promise<Stock[]>{
+    return this.stockRepository.find({
+      where: {
+        barcitoId: barcito,
+        type: StockType.CONSUMABLE
+      },
+      relations: {
+        categories: true
+      }
+    });
+  }
+
+  async getAllSupplies(barcito: number): Promise<Stock[]>{
+    return this.stockRepository.find({
+      where: {
+        barcitoId: barcito,
+        type: StockType.SUPPLY
+      },
+      relations:{ 
+        categories: true
+      }
+    });
   }
 }
