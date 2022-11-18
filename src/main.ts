@@ -12,7 +12,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       process.env.FRONTEND_DESKTOP_URL,
-      process.env.FRONTED_MOBILE_URL
+      process.env.FRONTEND_MOBILE_URL
     ],
     credentials: true
   });

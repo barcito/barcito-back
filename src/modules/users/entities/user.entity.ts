@@ -39,6 +39,9 @@ export class User {
   @Column({ unique: true })
   phone: string;
 
+  @Column()
+  academicUnitId: number;
+
   @Column({
     type: 'enum',
     enum: Role,

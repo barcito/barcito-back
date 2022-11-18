@@ -1,11 +1,11 @@
 import {
+  IsNumber,
   IsString,
   IsOptional,
   IsEmail,
   IsArray,
+  IsNumberString,
 } from '@nestjs/class-validator';
-import { IsNumber } from 'class-validator';
-import { AcademicUnit } from 'modules/academic-units/entities/academic-unit.entity';
 import { Application } from 'modules/applications/entities/application.entity';
 
 export class CreateUserDto {
@@ -32,7 +32,8 @@ export class CreateUserDto {
   @IsString()
   refreshToken: string;
 
-  academicUnit: AcademicUnit;
+  @IsNumberString()
+  academicUnitId: number;
 
   @IsOptional()
   @IsNumber()

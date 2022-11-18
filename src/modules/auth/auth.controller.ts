@@ -42,7 +42,11 @@ export class AuthController {
       httpOnly: true,
       domain: this.frontendDomain,
     });
-    return { email: newUser.email, roles: newUser.roles };
+    return {
+      email: newUser.email,
+      academicUnit: newUser.academicUnitId,
+      refreshToken: newUser.refreshToken,
+    };
   }
 
   @Public()
@@ -65,7 +69,7 @@ export class AuthController {
     return {
       email: user.email,
       roles: user.roles,
-      academicUnit: user.academicUnit.id,
+      academicUnit: user.academicUnitId,
       barcitoId: user.barcitoManaged?.id,
       refreshToken: user.refreshToken,
     };
