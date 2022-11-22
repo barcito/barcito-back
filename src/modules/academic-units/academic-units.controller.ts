@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'common/decorators/roles.decorator';
 import { RolesGuard } from 'common/guards/roles.guard';
 import { Role } from 'enums/role.enum';
@@ -17,6 +18,7 @@ import { CreateAcademicUnitDto } from './dto/create-academic-unit.dto';
 import { UpdateAcademicUnitDto } from './dto/update-academic-unit.dto';
 import { Public } from 'common/decorators/public.decorator';
 
+@ApiTags('Academic Units')
 @Controller('academic-units')
 export class AcademicUnitsController {
   constructor(private readonly academicUnitsService: AcademicUnitsService) {}

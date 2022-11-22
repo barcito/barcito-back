@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ReceiptsService } from './receipts.service';
 import { CreateReceiptDto } from './dto/create-receipt.dto';
 import { UpdateReceiptDto } from './dto/update-receipt.dto';
@@ -7,13 +20,20 @@ import { receiptFileFilter } from 'files/helpers/receiptFileFilter.helper';
 import { diskStorage } from 'multer';
 import { receiptFileNamer } from 'files/helpers/receiptFileName.helper';
 
+@ApiTags('Receipts')
 @Controller('receipts/:barcito')
 export class ReceiptsController {
   constructor(private readonly receiptsService: ReceiptsService) {}
 
   @Post()
-  async create(@Param('barcito', ParseIntPipe) barcito: number, @Body() createReceiptDto: CreateReceiptDto) {
-    const receipt = await this.receiptsService.create(barcito, createReceiptDto);
+  async create(
+    @Param('barcito', ParseIntPipe) barcito: number,
+    @Body() createReceiptDto: CreateReceiptDto,
+  ) {
+    const receipt = await this.receiptsService.create(
+      barcito,
+      createReceiptDto,
+    );
     return receipt;
   }
 
@@ -28,7 +48,10 @@ export class ReceiptsController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateReceiptDto: UpdateReceiptDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateReceiptDto: UpdateReceiptDto,
+  ) {
     return this.receiptsService.update(id, updateReceiptDto);
   }
 
@@ -50,12 +73,14 @@ export class ReceiptsController {
   )
   documentUpdate(
     @Param('id', ParseIntPipe) id: number,
-    @UploadedFile() file: Express.Multer.File
-  ){
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     if (!file)
       throw new BadRequestException('Make sure document is of a valid type');
 
-    const updateReceiptDto: UpdateReceiptDto = {receiptPath: `${process.env.HOST_API}files/receipts/${file.filename}`};
+    const updateReceiptDto: UpdateReceiptDto = {
+      receiptPath: `${process.env.HOST_API}files/receipts/${file.filename}`,
+    };
     return this.receiptsService.update(id, updateReceiptDto);
   }
 }

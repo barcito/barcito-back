@@ -7,6 +7,7 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'modules/users/dto/create-user.dto';
@@ -15,6 +16,7 @@ import { RefreshTokenGuard } from 'common/guards/refreshToken.guard';
 import { Public } from 'common/decorators/public.decorator';
 import { ConfigService } from '@nestjs/config';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   private frontendDomain = null;

@@ -13,6 +13,7 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'common/decorators/roles.decorator';
 import { Role } from 'enums/role.enum';
 import { ApplicationsService } from './applications.service';
@@ -26,6 +27,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { applicationFileFilter, applicationFileNamer } from 'files/helpers';
 import { diskStorage } from 'multer';
 
+@ApiTags('Applications')
 @Controller('applications')
 export class ApplicationsController {
   constructor(
@@ -95,10 +97,10 @@ export class ApplicationsController {
     const userId = request.user['id'];
     const user = await this.usersService.findById(userId);
     if (!user) throw new NotFoundException('User not found');
-    const application = await this.applicationsService.update(
-      id,
-      {...updateApplicationDto, validatorUser: user},
-    );
+    const application = await this.applicationsService.update(id, {
+      ...updateApplicationDto,
+      validatorUser: user,
+    });
     if (!application) throw new BadRequestException('Application not found');
     return application;
   }

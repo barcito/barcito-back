@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { Reflector } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppModule } from './app.module';
 import { AccessTokenGuard } from 'common/guards/accessToken.guard';
 import { ValidateInputPipe } from 'common/pipes/validate.pipe';
 import * as cookieParser from 'cookie-parser';
@@ -21,6 +22,15 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidateInputPipe());
   app.useGlobalGuards(new AccessTokenGuard(reflector));
+
+  const config = new DocumentBuilder()
+    .setTitle('Barcito API')
+    .setDescription('Barcito Endpoints')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
   await app.listen(3000);
 }
 bootstrap();

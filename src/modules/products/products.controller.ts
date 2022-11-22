@@ -12,6 +12,7 @@ import {
   UploadedFile,
   BadRequestException,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -22,6 +23,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { productFileFilter, productFileNamer } from 'files/helpers';
 
+@ApiTags('Products')
 @Controller('products/:barcito')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
@@ -33,7 +35,10 @@ export class ProductsController {
     @Param('barcito', ParseIntPipe) barcito: number,
     @Body() createProductDto: CreateProductDto,
   ) {
-    const product = await this.productsService.create(barcito, createProductDto);
+    const product = await this.productsService.create(
+      barcito,
+      createProductDto,
+    );
     return product;
   }
 
@@ -82,12 +87,14 @@ export class ProductsController {
   )
   imageUpdate(
     @Param('id', ParseIntPipe) id: number,
-    @UploadedFile() file: Express.Multer.File
-  ){
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     if (!file)
       throw new BadRequestException('Make sure image is of a valid type');
 
-    const updateProductDto: UpdateProductDto = {imagePath: `${process.env.HOST_API}files/products/${file.filename}`};
+    const updateProductDto: UpdateProductDto = {
+      imagePath: `${process.env.HOST_API}files/products/${file.filename}`,
+    };
     return this.productsService.update(id, updateProductDto);
   }
 }

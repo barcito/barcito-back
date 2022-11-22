@@ -1,8 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ProductToStockService } from './product-to-stock.service';
 import { CreateProductToStockDto } from './dto/create-product-to-stock.dto';
 import { UpdateProductToStockDto } from './dto/update-product-to-stock.dto';
 
+@ApiTags('Product to Stock')
 @Controller('product-to-stock')
 export class ProductToStockController {
   constructor(private readonly productToStockService: ProductToStockService) {}
@@ -23,7 +33,10 @@ export class ProductToStockController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductToStockDto: UpdateProductToStockDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProductToStockDto: UpdateProductToStockDto,
+  ) {
     return this.productToStockService.update(+id, updateProductToStockDto);
   }
 

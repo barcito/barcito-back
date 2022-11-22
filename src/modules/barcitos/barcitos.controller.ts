@@ -11,6 +11,7 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'common/decorators/roles.decorator';
 import { Role } from 'enums/role.enum';
 import { BarcitosService } from './barcitos.service';
@@ -22,6 +23,7 @@ import { barcitoFileFilter, barcitoFileNamer } from 'files/helpers';
 import { diskStorage } from 'multer';
 import { BadRequestException } from '@nestjs/common';
 
+@ApiTags('Barcitos')
 @Controller('barcitos')
 export class BarcitosController {
   constructor(private readonly barcitosService: BarcitosService) {}
@@ -91,12 +93,14 @@ export class BarcitosController {
   )
   imageUpdate(
     @Param('id', ParseIntPipe) id: number,
-    @UploadedFile() file: Express.Multer.File
-  ){
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     if (!file)
       throw new BadRequestException('Make sure image is of a valid type');
 
-    const updateBarcitoDto: UpdateBarcitoDto = {imagePath: `${process.env.HOST_API}files/barcitos/${file.filename}`};
+    const updateBarcitoDto: UpdateBarcitoDto = {
+      imagePath: `${process.env.HOST_API}files/barcitos/${file.filename}`,
+    };
     return this.barcitosService.update(id, updateBarcitoDto);
   }
 }
