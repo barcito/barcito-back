@@ -43,6 +43,7 @@ export class AuthController {
       domain: this.frontendDomain,
     });
     return {
+      id: newUser.id,
       email: newUser.email,
       academicUnit: newUser.academicUnitId,
       refreshToken: newUser.refreshToken,
@@ -67,6 +68,7 @@ export class AuthController {
       domain: this.frontendDomain,
     });
     return {
+      id: user.id,
       email: user.email,
       roles: user.roles,
       academicUnit: user.academicUnitId,

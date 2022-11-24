@@ -14,7 +14,7 @@ export class OrdersService {
 
   async create(barcito: number, createOrderDto: CreateOrderDto): Promise<Order> {
     const createdOrder = this.OrderRepository.create({...createOrderDto, barcitoId: barcito});
-    await this.OrderRepository.save(createOrderDto);
+    await this.OrderRepository.save(createdOrder);
     return createdOrder;
   }
 

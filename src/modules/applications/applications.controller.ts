@@ -34,7 +34,6 @@ export class ApplicationsController {
   ) {}
 
   //endpoint solo para usuario
-  @Roles(Role.CLIENT)
   @Post()
   @UseInterceptors(
     FileInterceptor('application_doc', {
@@ -52,7 +51,7 @@ export class ApplicationsController {
     @Req() request: Request,
   ) {
     if (!file)
-      throw new BadRequestException('Make sure image is of a valid type');
+      throw new BadRequestException('Make sure document is of a valid type');
 
     const userId = request.user['id'];
     createApplicationDto.certificatePath = `${process.env.HOST_API}files/applications/${file.filename}`;

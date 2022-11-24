@@ -40,7 +40,8 @@ export class UsersService {
       relations: {
         applicationDone: true,
         academicUnit: true,
-        barcitoManaged: true
+        barcitoManaged: true,
+        orders: true
       },
     });
     if (!user) throw new NotFoundException('User not found');

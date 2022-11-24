@@ -13,8 +13,8 @@ export class CategoriesController {
   }
 
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  findAll(@Param('barcito', ParseIntPipe) barcito: number) {
+    return this.categoriesService.findAllByBarcito(barcito);
   }
 
   @Get('consumables')

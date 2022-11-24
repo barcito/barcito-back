@@ -76,4 +76,12 @@ export class CategoriesService {
       }
     });
   }
+
+  async findAllByBarcito(barcito: number): Promise<Category[]>{
+    return this.categoriesRepository.find({
+      where: {
+        barcitoId: barcito
+      }
+    });
+  }
 }

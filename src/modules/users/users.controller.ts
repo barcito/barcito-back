@@ -54,4 +54,10 @@ export class UsersController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);
   }
+
+  @Get('orders/:id')
+  async getOrders(@Param('id', ParseIntPipe) id: number){
+    const user = await this.findOneById(id);
+    return user.orders;
+  }
 }

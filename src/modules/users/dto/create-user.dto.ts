@@ -3,8 +3,7 @@ import {
   IsString,
   IsOptional,
   IsEmail,
-  IsArray,
-  IsNumberString,
+  IsArray
 } from '@nestjs/class-validator';
 import { Application } from 'modules/applications/entities/application.entity';
 
@@ -32,7 +31,7 @@ export class CreateUserDto {
   @IsString()
   refreshToken: string;
 
-  @IsNumberString()
+  @IsNumber()
   academicUnitId: number;
 
   @IsOptional()
