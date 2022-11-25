@@ -1,11 +1,13 @@
 import { Controller, Get, Param, Res } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { Response } from 'express';
+import { Public } from 'common/decorators/public.decorator';
 
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
+  @Public()
   @Get('barcitos/:imageName')
   findBarcitoImage(
     @Res() res: Response,
@@ -16,6 +18,7 @@ export class FilesController {
     res.sendFile(path);
   }
 
+  @Public()
   @Get('applications/:docName')
   findApplicationDoc(
     @Res() res: Response,
@@ -26,6 +29,7 @@ export class FilesController {
     res.sendFile(path);
   }
 
+  @Public()
   @Get('products/:imageName')
   findProductImage(
     @Res() res: Response,
@@ -36,6 +40,7 @@ export class FilesController {
     res.sendFile(path);
   }
 
+  @Public()
   @Get('receipts/:docName')
   findReceiptDoc(
     @Res() res: Response,
