@@ -6,6 +6,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { CategoryType } from 'enums/category-type.enum';
+import { Product } from 'modules/products/entities/product.entity';
 
 @Injectable()
 export class CategoriesService {
@@ -28,6 +29,16 @@ export class CategoriesService {
     const product = await this.categoriesRepository.findOne({ where: { id } });
     if (!product) throw new NotFoundException('Category not found');
     return product;
+  }
+
+  async findWithProds(id: number): Promise<Product[]> {
+    const categoryWithProducts = await this.categoriesRepository.findOne({
+      where: { id },
+      relations: {
+        products: true
+      }
+    });
+    return categoryWithProducts.products;
   }
 
   async findAllSearched(query: string): Promise<Category[]> {

@@ -32,6 +32,12 @@ export class CategoriesController {
     return this.categoriesService.getAllProducts(barcito);
   }
 
+  @Get('products/:categoryId')
+  async findProductsByCategory(@Param('categoryId', ParseIntPipe) categoryId: number){
+    const category = await this.categoriesService.findWithProds(categoryId);
+    return category;
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.categoriesService.findById(id);
