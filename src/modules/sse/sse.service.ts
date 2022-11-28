@@ -12,7 +12,11 @@ export class SseService {
         return fromEvent(this.emitter, channel);
     }
 
-    emit(channel: string, data?: object) {
+    emit(channel: string, data: any) {
         this.emitter.emit(channel, {data});
+        console.log(data);
+        if(data.type === 'close'){
+            this.emitter.removeAllListeners(channel);
+        }
     }
 }

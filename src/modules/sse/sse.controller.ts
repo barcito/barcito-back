@@ -1,4 +1,4 @@
-import { Controller, Request, Sse, Post, Param, ParseIntPipe, Body } from "@nestjs/common";
+import { Controller, Request, Sse, Post, Param, ParseIntPipe, Body, Get } from "@nestjs/common";
 import { MessageEvent } from "./message-event.interface";
 import { SseService } from "./sse.service";
 
