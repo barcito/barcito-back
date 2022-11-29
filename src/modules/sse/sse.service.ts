@@ -14,7 +14,6 @@ export class SseService {
 
     emit(channel: string, data: any) {
         this.emitter.emit(channel, {data});
-        console.log(data);
         if(data.type === 'close'){
             this.emitter.removeAllListeners(channel);
         }
