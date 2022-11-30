@@ -11,7 +11,7 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'common/decorators/roles.decorator';
 import { Role } from 'enums/role.enum';
 import { BarcitosService } from './barcitos.service';
@@ -31,6 +31,7 @@ export class BarcitosController {
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
   @Post()
+  @ApiBody({type: CreateBarcitoDto})
   /* @UseInterceptors(
     FileInterceptor('barcito_img', {
       fileFilter: barcitoFileFilter,
@@ -60,6 +61,7 @@ export class BarcitosController {
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', required: true, description: "En caso de no haber un id, retorna todos los barcitos", type: Number})
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.barcitosService.findById(id);
   }
@@ -91,6 +93,7 @@ export class BarcitosController {
       }),
     }),
   )
+  @ApiConsumes('multipart/form-data')
   imageUpdate(
     @Param('id', ParseIntPipe) id: number,
     @UploadedFile() file: Express.Multer.File,

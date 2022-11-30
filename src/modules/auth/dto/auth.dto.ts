@@ -1,11 +1,21 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { Role } from "enums/role.enum";
 
 export class AuthDto {
-    @ApiProperty()
+    /**
+     * Email de la persona que ingresa
+     * @example 'test@gmail.com'
+     */
     email: string;
-    @ApiProperty()
+
+    /**
+     * Contraseña de la persona que ingresa
+     * @example 'password123'
+     */
     password: string;
-    @ApiProperty()
+
+    /**
+     * Rol de la persona
+     * @example ['Admin']
+     */
     roles: Role[];
 }

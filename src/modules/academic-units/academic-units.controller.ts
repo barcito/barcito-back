@@ -9,7 +9,7 @@ import {
   ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiAcceptedResponse, ApiBadRequestResponse, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'common/decorators/roles.decorator';
 import { RolesGuard } from 'common/guards/roles.guard';
 import { Role } from 'enums/role.enum';
@@ -17,6 +17,7 @@ import { AcademicUnitsService } from './academic-units.service';
 import { CreateAcademicUnitDto } from './dto/create-academic-unit.dto';
 import { UpdateAcademicUnitDto } from './dto/update-academic-unit.dto';
 import { Public } from 'common/decorators/public.decorator';
+import { AcademicUnit } from './entities/academic-unit.entity';
 
 @ApiTags('Academic Units')
 @Controller('academic-units')
@@ -26,6 +27,8 @@ export class AcademicUnitsController {
   @Public()
   @UseGuards(RolesGuard)
   @Post()
+  @ApiCreatedResponse({description: "Unidad académica creada"})
+  @ApiBadRequestResponse({description: "Los datos ingresados nos son válidos"})
   create(@Body() createAcademicUnitDto: CreateAcademicUnitDto) {
     return this.academicUnitsService.create(createAcademicUnitDto);
   }
@@ -37,6 +40,7 @@ export class AcademicUnitsController {
   }
 
   @Get(':id')
+  @ApiOkResponse({type: AcademicUnit})
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.academicUnitsService.findById(id);
   }

@@ -1,11 +1,16 @@
 import { IsString } from '@nestjs/class-validator';
-import { ApiProperty } from '@nestjs/swagger';
 export class CreateAcademicUnitDto {
-  @ApiProperty()
+  /**
+   * Siglas de la unidad académica
+   * @example 'FAIF'
+   */
   @IsString()
   shortName: string;
 
-  @ApiProperty()
+  /**
+   * Nombre de la unidad academica
+   * @example 'Facultad de Informática'
+   */
   @IsString()
   description: string;
 }

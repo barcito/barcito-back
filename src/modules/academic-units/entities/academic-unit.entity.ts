@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Barcito } from 'modules/barcitos/entities/barcito.entity';
 import { User } from 'modules/users/entities/user.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
