@@ -40,6 +40,13 @@ export class UsersController {
     return this.usersService.findByEmail(email);
   }
 
+  @Get('/academic-unit/:academicUnitId')
+  findAllByAcademicUnit(
+    @Param('academicUnitId', ParseIntPipe) academicUnitId: number,
+  ) {
+    return this.usersService.findByAcademicUnit(academicUnitId);
+  }
+
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -56,7 +63,7 @@ export class UsersController {
   }
 
   @Get('orders/:id')
-  async getOrders(@Param('id', ParseIntPipe) id: number){
+  async getOrders(@Param('id', ParseIntPipe) id: number) {
     const user = await this.findOneById(id);
     return user.orders;
   }

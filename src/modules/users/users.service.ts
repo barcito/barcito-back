@@ -7,6 +7,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as argon2 from 'argon2';
+import { Role } from 'enums/role.enum';
 
 @Injectable()
 export class UsersService {
@@ -41,7 +42,7 @@ export class UsersService {
         applicationDone: true,
         academicUnit: true,
         barcitoManaged: true,
-        orders: true
+        orders: true,
       },
     });
     if (!user) throw new NotFoundException('User not found');
@@ -54,10 +55,22 @@ export class UsersService {
       relations: {
         applicationDone: true,
         academicUnit: true,
-        barcitoManaged: true
-      }
+        barcitoManaged: true,
+      },
     });
     return user;
+  }
+
+  async findByAcademicUnit(academicUnitId: number): Promise<User[]> {
+    const users = await this.usersRepository.find({
+      where: { academicUnitId, roles: Role.CLIENT },
+      relations: {
+        applicationDone: true,
+        academicUnit: true,
+        barcitoManaged: true,
+      },
+    });
+    return users;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
