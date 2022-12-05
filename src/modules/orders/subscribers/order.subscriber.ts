@@ -1,6 +1,8 @@
 import { OrderStatus } from "enums/order-status.enum";
+import { Barcito } from "modules/barcitos/entities/barcito.entity";
 import { Product } from "modules/products/entities/product.entity";
 import { Stock } from "modules/stock/entities/stock.entity";
+import { User } from "modules/users/entities/user.entity";
 import { EntitySubscriberInterface, EventSubscriber, InsertEvent, UpdateEvent } from "typeorm";
 import { Order } from "../entities/order.entity";
 
@@ -13,8 +15,16 @@ export class OrderSubscriber implements EntitySubscriberInterface<Order>{
 
     async beforeInsert(event: InsertEvent<Order>): Promise<any> {
         await event.manager.transaction( async (transactionalEntityManager) => {
+            const userRepository = transactionalEntityManager.getRepository(User);
+            const barcitoRepository = transactionalEntityManager.getRepository(Barcito);
             const productRepository = transactionalEntityManager.getRepository(Product);
             const stockRepository = transactionalEntityManager.getRepository(Stock);
+            const user = await userRepository.findOne({
+                where: { id: event.entity.user.id },
+                relations: { applicationDone: true }
+            });
+            const barcito = await barcitoRepository.findOne({ where: { id: event.entity.barcitoId }});
+            const associated = user.academicUnitId === barcito.academicUnitId && user.applicationDone.status === 'Aceptado';
             let stockToSave = [];
             let amount = 0;
             const prodsToOrder = await Promise.all(
@@ -28,7 +38,7 @@ export class OrderSubscriber implements EntitySubscriberInterface<Order>{
                         return stock;
                     }));
                     stockToSave = stockToSave.concat(stock);
-                    prod.lockedPrice = product.finalSellPrice;
+                    prod.lockedPrice = associated ? product.associatedSellPrice : product.finalSellPrice;
                     amount += prod.lockedPrice * prod.quantity;
                     return prod;
                 })

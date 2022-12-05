@@ -48,7 +48,9 @@ export class OrdersService {
     const order = await this.OrderRepository.findOne({
       where: { code },
       relations: {
-        barcito: true,
+        barcito: {
+          academicUnit: true
+        },
         user: true,
         products: {
           product: true

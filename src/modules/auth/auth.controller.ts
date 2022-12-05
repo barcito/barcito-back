@@ -74,6 +74,7 @@ export class AuthController {
       academicUnit: user.academicUnitId,
       barcitoId: user.barcitoManaged?.id,
       refreshToken: user.refreshToken,
+      application: user.applicationDone
     };
   }
 
